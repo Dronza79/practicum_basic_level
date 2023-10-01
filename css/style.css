@@ -114,6 +114,24 @@ body {
 .tbody {
   background-color: #FFFFFF;
   height: 300px;
+  width: 100%;
+  position: relative;
+  overflow: auto;
+}
+
+.await {
+  position: absolute;
+  left: calc(50% - 20px);
+  top: calc(50% - 20px);
+  animation-name: rotation;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes rotation {
+  0% {transform:rotate(0deg);}
+  100% {transform:rotate(360deg);}
 }
 
 .btn_add {
