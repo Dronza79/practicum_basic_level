@@ -41,6 +41,7 @@ body {
   /*font-size: 0;*/
   background-color: #F5F5F5;
   min-width: 320px;
+  overflow: auto;
 }
 
 .container {
@@ -160,24 +161,77 @@ body {
   width: 100%;
   height: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
+  padding:10px 0;
   background-color: rgba(51, 51, 51, .6);
-  cursor: pointer;
-}
-
-.bgModal:focus {
   visibility: hidden;
+  overflow: auto;
 }
-
-/*.modal-hidden {*/
-/*  display: none;*/
-/*}*/
 
 .win-confirm {
+  margin: auto;
   position: relative;
   width: 450px;
   height: 215px;
   background: #FFF;
   box-shadow: 0 0 35px 0 rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 22px;
+  /*transition: transform 0.3s, opacity 0.3s;*/
+  /*transform: scale(0.9);*/
+  /*opacity: 0;*/
+}
+
+.modal-visible {
+  visibility: visible;
+}
+
+/*.win-active {*/
+/*  transform: scale(1);*/
+/*  opacity: 1;*/
+/*}*/
+
+.modal-title {
+  font-size: 18px;
+  line-height: 1;
+  margin: 0 0 18px;
+}
+
+.modal-btnClose {
+  position: absolute;
+  right: 14px;
+  top: 17px;
+}
+
+.modal-descr {
+  font-size: 14px;
+  line-height: 139%;
+  max-width: 275px;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.btn {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 70%;
+  padding: 17px 35px;
+  outline: 1px #9873FF solid;
+  letter-spacing: 1px;
+}
+
+.modal-btnConfirm {
+  color: #FFFFFF;
+  background-color: #9873FF;
+}
+
+.modal-btnCancel {
+  text-decoration: underline;
+  font-size: 12px;
+  line-height: 1.4;
+  padding-top: 5px;
 }
