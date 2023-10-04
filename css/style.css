@@ -89,15 +89,24 @@ body {
 .table_id {
   width: 5%;
   text-align: center;
+  cursor: pointer;
 }
 
-.table_username,
+.table_username {
+  width: 25%;
+  cursor: pointer;
+}
+
+.table_create,
+.table_update {
+  width: 15%;
+  cursor: pointer;
+}
+
 .table_actions {
   width: 25%;
 }
 
-.table_create,
-.table_update,
 .table_contact {
   width: 15%;
 }
@@ -166,8 +175,9 @@ body {
   padding:10px 0;
   background-color: rgba(51, 51, 51, .6);
   visibility: hidden;
+  opacity: 0;
   overflow: auto;
-  transition: visibility .3s;
+  transition: opacity .3s, visibility .4s;
 }
 
 .win-confirm {
@@ -185,10 +195,12 @@ body {
   transition: transform 0.3s, opacity 0.3s;
   transform: scale(0.9);
   opacity: 0;
+  z-index: 1;
 }
 
 .modal-visible {
   visibility: visible;
+  opacity: 1;
 }
 
 .win-active {

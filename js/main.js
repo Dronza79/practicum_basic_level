@@ -49,6 +49,7 @@
 		btnCancel.addEventListener('click', funRMV);
 		btnClose.addEventListener('click', funRMV);
 		window.addEventListener('click', (event) => {
+			console.log(event);
 			if (event.target === html.bgM) {
 				funRMV();
 			}
