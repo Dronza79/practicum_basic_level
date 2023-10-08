@@ -180,22 +180,25 @@ body {
   transition: opacity .3s, visibility .4s;
 }
 
-.win-confirm {
+.modal-window {
   margin: auto;
   position: relative;
   width: 450px;
-  height: 215px;
   background: #FFF;
   box-shadow: 0 0 35px 0 rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  padding: 22px;
   transition: transform 0.3s, opacity 0.3s;
   transform: scale(0.9);
   opacity: 0;
   z-index: 1;
+}
+
+.win-confirm {
+  height: 215px;
+  padding: 22px;
 }
 
 .modal-visible {
@@ -216,8 +219,9 @@ body {
 
 .modal-btnClose {
   position: absolute;
-  right: 14px;
-  top: 17px;
+  display: block;
+  right: 15px;
+  top: 15px;
   cursor: pointer;
 }
 
@@ -247,4 +251,14 @@ body {
   line-height: 1.4;
   padding-top: 5px;
   cursor: pointer;
+}
+
+.modal-newClient {
+  width: 450px;
+  min-height: 400px;
+  padding: 24px 30px 29px;
+}
+
+.input-form {
+  display: block;
 }

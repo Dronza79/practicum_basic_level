@@ -9,6 +9,7 @@ function removeModalVisible(windowModal, modalBackGround) {
 
 // Создание шаблона модального окна
 function createModalWindowTemplate() {
+  console.log('createModalWindowTemplate()');
   const winTemplate = document.createElement('div');
   const btnClose = document.createElement('button');
   const btnMain = document.createElement('button');
@@ -23,13 +24,14 @@ function createModalWindowTemplate() {
   btnClose.classList.add('modal-btnClose');
   btnMain.classList.add('btn');
   btnCancel.classList.add('modal-btnCancel');
+  bgM.classList.add('modal-visible');
+  winTemplate.classList.add('win-active', 'modal-window');
 
   btnClose.append(img);
   winTemplate.append(title, btnClose, btnMain, btnCancel);
-
-  bgM.classList.add('modal-visible');
+  bgM.textContent = '';
   bgM.append(winTemplate);
-  winTemplate.classList.add('win-active');
+
   document.body.style.overflow = 'hidden';
 
   function funRMV() {
@@ -40,6 +42,7 @@ function createModalWindowTemplate() {
   btnCancel.addEventListener('click', funRMV);
   btnClose.addEventListener('click', funRMV);
   window.addEventListener('click', (event) => {
+    console.log(event.target);
     if (event.target === bgM) {
       funRMV();
     }
@@ -64,6 +67,7 @@ function createModalConfirm() {
 
 // Создание секции добавления контактов
 function createContactData() {
+  console.log('createContactData()');
   const divWrapper = document.createElement('div');
   const addButtonContact = document.createElement('button');
   const plusImg = document.createElement('img');
@@ -92,20 +96,30 @@ function createContactData() {
   inputContact.className = 'input-contact';
   divWrapper.className = 'section_add_contact';
   addButtonContact.className = 'btn_add_contact';
+  inputGroupWrapper.className = 'group-input';
 
-  addButtonContact.addEventListener('click', () => {
-    divWrapper.prepend(inputGroupWrapper);
+  addButtonContact.addEventListener('click', (event) => {
+    event.preventDefault();
+    console.log(divWrapper.getElementsByClassName('group-input'));
+    if (divWrapper.getElementsByClassName('group-input')) {
+      let copyIGW = inputGroupWrapper.cloneNode(true);
+      addButtonContact.before(copyIGW);
+    } else divWrapper.prepend(inputGroupWrapper);
   });
   return {divWrapper};
 }
 
 // Создание модального окна нового клиента
 function createModalNewClient() {
+  console.log('createModalNewClient()');
   const modal = createModalWindowTemplate();
   const sectionContact = createContactData();
   const form = document.createElement('form');
-  const username = [{type: 'surname', val: 'Фамилия*'}, {type: 'name', val: 'Имя*'}, {type: 'lastName', val: 'Отчество'}];
-
+  const username = [
+    {type: 'surname', val: 'Фамилия*'},
+    {type: 'name', val: 'Имя*'},
+    {type: 'lastName', val: 'Отчество'}
+  ];
   for (let obj of username) {
     let label = document.createElement('label');
     let input = document.createElement('input');
@@ -115,10 +129,13 @@ function createModalNewClient() {
     label.htmlFor = obj.type;
     input.className = 'input-form';
     label.className = 'label-input';
-    form.append(input, label);
+    form.append(label, input);
   }
+
+  modal.winTemplate.classList.add('modal-newClient');
   modal.btnMain.textContent = 'Сохранить';
+  modal.title.textContent = 'Новый клиент';
   form.append(sectionContact.divWrapper, modal.btnMain);
-  modal.title.before(form);
+  modal.title.after(form);
   return {modalWindow: modal.winTemplate, btnMain: modal.btnMain}
 }

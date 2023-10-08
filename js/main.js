@@ -1,5 +1,8 @@
+// import {createModalNewClient} from './modal.js'
+
 (() => {
-  // Получение всех элементов на странице
+
+  // Получение всех готовых элементов со страницы
   function getHTMLElement() {
     const tHead = Array.from(document.querySelectorAll('.table_head td')).slice(0, 4);
     const sch = document.querySelector('.search_form');
@@ -11,7 +14,14 @@
 
 
   document.addEventListener("DOMContentLoaded", () => {
-    // createModalConfirm();
+    const html = getHTMLElement();
+
+    html.addBtn.addEventListener('click', async (event) => {
+      event.preventDefault();
+      let { createModalNewClient} = await import('./modal.js');
+      createModalNewClient();
+      // createModalConfirm();
+    });
 
   });
 })();
