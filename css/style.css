@@ -177,7 +177,7 @@ body {
   visibility: hidden;
   opacity: 0;
   overflow: auto;
-  transition: opacity .3s, visibility .4s;
+  transition: opacity .6s, visibility 1s;
 }
 
 .modal-window {
@@ -199,6 +199,7 @@ body {
 .win-confirm {
   height: 215px;
   padding: 22px;
+  align-items: center;
 }
 
 .modal-visible {
@@ -242,7 +243,8 @@ body {
   color: #FFFFFF;
   background-color: #9873FF;
   cursor: pointer;
-  margin-top: 25px;
+  margin: 0 auto;
+  display: block;
 }
 
 .modal-btnCancel {
@@ -253,12 +255,89 @@ body {
   cursor: pointer;
 }
 
-.modal-newClient {
+.modal-client {
   width: 450px;
   min-height: 400px;
   padding: 24px 30px 29px;
 }
 
+.title-client {
+  margin-right: 9px;
+  margin-bottom: 32px;
+}
+
 .input-form {
   display: block;
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #C8C5D1;
+  padding-bottom: 4px;
+}
+
+.input-form:not(#lastName) {
+  margin-bottom: 32px;
+}
+
+.section_add_contact{
+  margin: 25px -30px;
+  background-color: rgba(200, 197, 209, .3);
+  min-height: 35px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: padding .3s;
+}
+
+.padding-divWrapper {
+  padding: 25px 30px;
+}
+
+.btn_add_contact{
+  display: flex;
+  gap: 4px;
+  color: #333;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  z-index: 10;
+}
+
+.group-input {
+  height: 37px;
+  width: 390px;
+  margin-bottom: 15px;
+  font-style: normal;
+  line-height: normal;
+  color: #333333;
+  border: 1px solid #C8C5D1;
+  display: flex;
+}
+
+.choice-input-contact {
+  height: 100%;
+  width: 123px;
+  font-size: 12px;
+  font-weight: 400;
+  background-color: #E7E5EB;
+  border: none;
+  border-right: 1px solid #C8C5D1;
+  padding: 10px 12px;
+  outline: none;
+  box-shadow: none;
+}
+
+.input-contact {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: none;
+  color: #B0B0B0;
+  font-size: 14px;
+  font-weight: 400;
+  padding-left: 12px;
+}
+
+.form {
+  width: 100%;
 }

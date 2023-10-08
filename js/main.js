@@ -1,5 +1,3 @@
-// import {createModalNewClient} from './modal.js'
-
 (() => {
 
   // Получение всех готовых элементов со страницы
@@ -18,7 +16,7 @@
 
     html.addBtn.addEventListener('click', async (event) => {
       event.preventDefault();
-      let { createModalNewClient} = await import('./modal.js');
+      let {createModalNewClient} = await import('./modal.js');
       createModalNewClient();
       // createModalConfirm();
     });

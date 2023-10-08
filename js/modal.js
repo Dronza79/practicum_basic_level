@@ -34,7 +34,8 @@ function createModalWindowTemplate() {
 
   document.body.style.overflow = 'hidden';
 
-  function funRMV() {
+  function funRMV(event) {
+    event.preventDefault();
     removeModalVisible(winTemplate, bgM);
   }
 
@@ -44,7 +45,7 @@ function createModalWindowTemplate() {
   window.addEventListener('click', (event) => {
     console.log(event.target);
     if (event.target === bgM) {
-      funRMV();
+      funRMV(event);
     }
   });
   return {winTemplate, title, btnMain, btnCancel};
@@ -100,11 +101,15 @@ function createContactData() {
 
   addButtonContact.addEventListener('click', (event) => {
     event.preventDefault();
-    console.log(divWrapper.getElementsByClassName('group-input'));
-    if (divWrapper.getElementsByClassName('group-input')) {
+    divWrapper.classList.add('padding-divWrapper');
+    let collection = divWrapper.getElementsByClassName('group-input');
+    if (collection && collection.length < 9) {
       let copyIGW = inputGroupWrapper.cloneNode(true);
       addButtonContact.before(copyIGW);
-    } else divWrapper.prepend(inputGroupWrapper);
+    } else {
+      addButtonContact.before(inputGroupWrapper);
+      addButtonContact.remove();
+    }
   });
   return {divWrapper};
 }
@@ -129,10 +134,12 @@ function createModalNewClient() {
     label.htmlFor = obj.type;
     input.className = 'input-form';
     label.className = 'label-input';
+    form.className = 'form';
     form.append(label, input);
   }
 
-  modal.winTemplate.classList.add('modal-newClient');
+  modal.winTemplate.classList.add('modal-client');
+  modal.title.classList.add('title-client');
   modal.btnMain.textContent = 'Сохранить';
   modal.title.textContent = 'Новый клиент';
   form.append(sectionContact.divWrapper, modal.btnMain);
