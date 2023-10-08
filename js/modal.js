@@ -1,3 +1,5 @@
+export {createModalConfirm, createModalNewClient}
+
 // Функция скрытия модального окна
 function removeModalVisible(windowModal, modalBackGround) {
   windowModal.classList.remove('win-active');
@@ -107,7 +109,16 @@ function createModalNewClient() {
   for (let obj of username) {
     let label = document.createElement('label');
     let input = document.createElement('input');
+    input.placeholder = obj.val;
+    input.id = obj.type;
+    input.name = obj.type;
+    label.htmlFor = obj.type;
+    input.className = 'input-form';
+    label.className = 'label-input';
+    form.append(input, label);
   }
-
-
+  modal.btnMain.textContent = 'Сохранить';
+  form.append(sectionContact.divWrapper, modal.btnMain);
+  modal.title.before(form);
+  return {modalWindow: modal.winTemplate, btnMain: modal.btnMain}
 }
