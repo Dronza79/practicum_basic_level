@@ -8,17 +8,29 @@
     const tBody = document.getElementById('t-body');
     return {tHead, sch, addBtn, tBody};
   }
-
-
-
-  document.addEventListener("DOMContentLoaded", () => {
+  
+  
+  function parseFormData(form) {
+    const data = new FormData(form);
+    const person = {contacts: []};
+    console.log(form);
+    for (const pair of data.entries()) {
+      person[pair[0]] = pair[1]
+      console.log(pair[0], pair[1]);
+    }
+    console.log(person);
+  }
+  
+  document.addEventListener("DOMContentLoaded", async () => {
     const html = getHTMLElement();
-
-    html.addBtn.addEventListener('click', async (event) => {
+    const {createModalNewClient} = await import('./modal.js');
+    
+    html.addBtn.addEventListener('click',  (event) => {
       event.preventDefault();
-      let {createModalNewClient} = await import('./modal.js');
-      createModalNewClient();
-      // createModalConfirm();
+      let modalForm = createModalNewClient();
+      modalForm.btnMain.addEventListener('click', () => {
+        parseFormData(modalForm.form);
+      });
     });
 
   });

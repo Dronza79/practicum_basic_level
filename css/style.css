@@ -272,6 +272,7 @@ body {
   border: none;
   border-bottom: 1px solid #C8C5D1;
   padding-bottom: 4px;
+  font-size: 14px;
 }
 
 .input-form:not(#lastName) {
@@ -299,6 +300,7 @@ body {
   color: #333;
   font-style: normal;
   font-weight: 600;
+  font-size: 14px;
   line-height: normal;
   z-index: 10;
 }
@@ -340,4 +342,9 @@ body {
 
 .form {
   width: 100%;
+}
+
+.black {
+  color: #333333;
+  font-weight: 600;
 }
