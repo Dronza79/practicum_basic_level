@@ -1,1 +1,74 @@
-[]
+[
+  {
+    "name": "Иван",
+    "surname": "Иванов",
+    "lastName": "Васильевич",
+    "contacts": [
+      {
+        "type": "Телефон",
+        "value": "123654789"
+      },
+      {
+        "type": "Email",
+        "value": "ivanov@mail.ru"
+      },
+      {
+        "type": "Vk",
+        "value": "vk.com/id1223"
+      }
+    ],
+    "id": "1696961362756",
+    "updatedAt": "2023-10-10T18:09:22.756Z",
+    "createdAt": "2023-10-10T18:09:22.756Z"
+  },
+  {
+    "name": "Ефор",
+    "surname": "Пупаки",
+    "lastName": "Угович",
+    "contacts": [
+      {
+        "type": "Телефон",
+        "value": "1236547"
+      },
+      {
+        "type": "Email",
+        "value": "gfjk@fdkl.ru"
+      }
+    ],
+    "id": "1696962240615",
+    "updatedAt": "2023-10-10T18:24:00.615Z",
+    "createdAt": "2023-10-10T18:24:00.615Z"
+  },
+  {
+    "name": "dfhbdfb",
+    "surname": "erdfhdf",
+    "lastName": "",
+    "contacts": [
+      {
+        "type": "Телефон",
+        "value": "dfbdxbvccvc"
+      }
+    ],
+    "id": "1696962552193",
+    "updatedAt": "2023-10-10T18:29:12.193Z",
+    "createdAt": "2023-10-10T18:29:12.193Z"
+  },
+  {
+    "name": "Ильяс",
+    "surname": "Попрыгайло",
+    "lastName": "Банафатьевич",
+    "contacts": [
+      {
+        "type": "Email",
+        "value": "ilas@mail.ru"
+      },
+      {
+        "type": "Телефон",
+        "value": "1236547890"
+      }
+    ],
+    "id": "1696963988490",
+    "updatedAt": "2023-10-10T18:53:08.490Z",
+    "createdAt": "2023-10-10T18:53:08.490Z"
+  }
+]

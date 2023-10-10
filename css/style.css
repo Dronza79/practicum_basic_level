@@ -129,10 +129,13 @@ body {
   overflow: auto;
 }
 
-.await {
+.table-await {
   position: absolute;
   left: calc(50% - 20px);
   top: calc(50% - 20px);
+}
+
+.await-animation {
   animation-name: rotation;
   animation-duration: 2s;
   animation-iteration-count: infinite;
@@ -234,17 +237,20 @@ body {
 }
 
 .btn {
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 70%;
-  padding: 17px 35px;
-  outline: 1px #9873FF solid;
-  letter-spacing: 1px;
-  color: #FFFFFF;
+  min-width: 147px;
+  height: 44px;
+  border: 1px #9873FF solid;
   background-color: #9873FF;
-  cursor: pointer;
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 600;
   margin: 0 auto;
-  display: block;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 4px;
+  padding: 0 35px;
+  cursor: pointer;
 }
 
 .modal-btnCancel {

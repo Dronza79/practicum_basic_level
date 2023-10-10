@@ -38,7 +38,7 @@ function createModalWindowTemplate() {
     removeModalVisible(winTemplate, bgM);
   }
 
-  btnMain.addEventListener('click', funRMV);
+  // btnMain.addEventListener('click', funRMV);
   btnCancel.addEventListener('click', funRMV);
   btnClose.addEventListener('click', funRMV);
   window.addEventListener('click', (event) => {
@@ -47,7 +47,7 @@ function createModalWindowTemplate() {
       funRMV(event);
     }
   });
-  return {winTemplate, title, btnMain, btnCancel};
+  return {winTemplate, title, btnMain, btnCancel, bgM};
 }
 
 // Создание модального окна подтверждения удаления
@@ -86,11 +86,7 @@ function createContactData() {
   for (let val of listContact) {
     let option = document.createElement('option');
     option.value = val;
-    // if (val === 'Vk') {
-    //   console.log('Прошло значение')
-    //   option.selected = true;
-    // }
-    // console.log(val, option.selected, option.attributes)
+    if (val === 'Email') option.setAttribute('selected', 'true');
     option.textContent = val;
     choices.append(option);
   }
@@ -99,6 +95,7 @@ function createContactData() {
   plusImg.src = 'img/add_circle_outline.svg';
   addButtonContact.textContent = 'Добавить контакт';
   inputContact.placeholder = 'Введите данные контакта';
+  inputContact.required = true;
 
   addButtonContact.prepend(plusImg);
   inputGroupWrapper.append(choices, inputContact);
@@ -133,6 +130,7 @@ function createModalNewClient() {
   const modal = createModalWindowTemplate();
   const sectionContact = createContactData();
   const form = document.createElement('form');
+  const btnWaiting = document.createElement('img');
   const username = [
     {type: 'surname', val: 'Фамилия*'},
     {type: 'name', val: 'Имя*'},
@@ -142,6 +140,7 @@ function createModalNewClient() {
     let label = document.createElement('label');
     let input = document.createElement('input');
     input.placeholder = obj.val;
+    input.required = obj.type !== 'lastName';
     input.id = obj.type;
     input.name = obj.type;
     label.htmlFor = obj.type;
@@ -151,6 +150,8 @@ function createModalNewClient() {
     form.append(label, input);
     makeTextBlack(input);
   }
+  btnWaiting.src = 'img/waiting_sm.svg';
+  btnWaiting.className = 'await-animation';
 
   modal.winTemplate.classList.add('modal-client');
   modal.title.classList.add('title-client');
@@ -158,5 +159,14 @@ function createModalNewClient() {
   modal.title.textContent = 'Новый клиент';
   form.append(sectionContact.divWrapper, modal.btnMain);
   modal.title.after(form);
-  return {modalWindow: modal.winTemplate, form, btnMain: modal.btnMain}
+  // return {modalWindow: modal.winTemplate, form, btnMain: modal.btnMain}
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    modal.btnMain.prepend(btnWaiting);
+    const {parseFormData} = await import('./core.js');
+    if (await parseFormData(form)) {
+      btnWaiting.remove();
+      removeModalVisible(modal.winTemplate, modal.bgM);
+    }
+  });
 }

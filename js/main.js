@@ -9,28 +9,16 @@
     return {tHead, sch, addBtn, tBody};
   }
   
-  
-  function parseFormData(form) {
-    const data = new FormData(form);
-    const person = {contacts: []};
-    console.log(form);
-    for (const pair of data.entries()) {
-      person[pair[0]] = pair[1]
-      console.log(pair[0], pair[1]);
-    }
-    console.log(person);
-  }
-  
-  document.addEventListener("DOMContentLoaded", async () => {
+  document.addEventListener("DOMContentLoaded", () => {
     const html = getHTMLElement();
-    const {createModalNewClient} = await import('./modal.js');
     
-    html.addBtn.addEventListener('click',  (event) => {
+    // Обработка нажатия кнопки "Добавить клиента"
+    html.addBtn.addEventListener('click',  async (event) => {
       event.preventDefault();
-      let modalForm = createModalNewClient();
-      modalForm.btnMain.addEventListener('click', () => {
-        parseFormData(modalForm.form);
-      });
+      const {createModalNewClient} = await import('./modal.js');
+      createModalNewClient(); // Создание нового клиента в модальном окне
+      
+      
     });
 
   });
