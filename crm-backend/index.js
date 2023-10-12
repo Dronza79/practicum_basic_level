@@ -160,7 +160,7 @@ if (!existsSync(DB_FILE)) writeFileSync(DB_FILE, '[]', { encoding: 'utf8' });
 // создаём HTTP сервер, переданная функция будет реагировать на все запросы к нему
 module.exports = createServer(async (req, res) => {
   // req - объект с информацией о запросе, res - объект для управления отправляемым ответом
-
+  console.log(req.url, req.method, res.statusCode);
   // этот заголовок ответа указывает, что тело ответа будет в JSON формате
   res.setHeader('Content-Type', 'application/json');
 
