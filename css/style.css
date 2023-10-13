@@ -354,3 +354,11 @@ body {
   color: #333333;
   font-weight: 600;
 }
+
+.server_errors {
+  color: red;
+  font-size: 10px;
+  text-align: center;
+  margin-top: -10px;
+  margin-bottom: 25px;
+}
