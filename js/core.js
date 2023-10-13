@@ -16,7 +16,7 @@ async function parseFormData(form) {
 	}
 	person.contacts = contacts;
 	
-	// console.log('person=', person);
+	console.log('person=', person);
 	// let json = JSON.stringify(person);
 	let response = await fetch('http://localhost:3000/api/clients', {
 		method: 'POST',
@@ -25,16 +25,7 @@ async function parseFormData(form) {
 	});
 	console.log(response.ok);
 	console.log(response.status);
-	return response.ok;
-}
-
-let cli = {
-	surname: "Иванов",
-	name: "Иван",
-	lastName: "Васильевич",
-	contacts: [
-		{type: "Телефон", value: "123654789"},
-		{type: "Email", value: "ivanov@mail.ru"},
-		{type: "Vk", value: "vk.com/id1223"},
-	]
+	let errors = await response.json()
+	// console.log(err);
+	return {ok: response.ok, errors};
 }
