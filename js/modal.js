@@ -73,6 +73,34 @@ function makeTextBlack(item) {
   });
 }
 
+function addMaskPairInput(groupElem) {
+  const selectElem = groupElem.querySelector('select');
+  const inputElem = groupElem.querySelector('input');
+
+  console.log('groupElem=', groupElem);
+  console.log('selectElem=', selectElem);
+  console.log('inputElem=', inputElem);
+
+  selectElem.addEventListener('change', (ev) => {
+    console.log('selectElem.value=', selectElem.value);
+    if (['Телефон', 'Доп. телефон'].includes(selectElem.value)) {
+      inputElem.addEventListener('input', (ev) => {
+        const input = ev.target;
+        const val = input.value.replace(/\D/g, '');
+        if (val.length === 0) {
+          input.value = '';
+        } else if (val.length <= 3) {
+          input.value = `(${val})`;
+        } else if (val.length <= 6) {
+          input.value = `(${val.slice(0, 3)}) ${val.slice(3)}`;
+        } else {
+          input.value = `(${val.slice(0, 3)}) ${val.slice(3, 6)}-${val.slice(6, 10)}`;
+        }
+      });
+    }
+  });
+}
+
 // Создание секции добавления контактов
 function createContactData() {
   const divWrapper = document.createElement('div');
@@ -82,11 +110,11 @@ function createContactData() {
   const choices = document.createElement('select');
   const inputContact = document.createElement('input');
 
-  const listContact = ['Телефон', 'Доп. телефон', 'Email', 'Vk', 'Facebook'];
+  const listContact = ["Тип контакта", 'Телефон', 'Доп. телефон', 'Email', 'Vk', 'Facebook'];
   for (let val of listContact) {
     let option = document.createElement('option');
-    option.value = val;
-    if (val === 'Email') option.setAttribute('selected', 'true');
+    option.value = val !== 'Тип контакта' ?  val : '';
+    // if (val === 'Email') option.setAttribute('selected', 'true');
     option.textContent = val;
     choices.append(option);
   }
@@ -95,7 +123,7 @@ function createContactData() {
   plusImg.src = 'img/add_circle_outline.svg';
   addButtonContact.textContent = 'Добавить контакт';
   inputContact.placeholder = 'Введите данные контакта';
-  inputContact.required = true;
+  // inputContact.required = true;
 
   addButtonContact.prepend(plusImg);
   inputGroupWrapper.append(choices, inputContact);
@@ -106,6 +134,8 @@ function createContactData() {
   divWrapper.className = 'section_add_contact';
   addButtonContact.className = 'btn_add_contact';
   inputGroupWrapper.className = 'group-input';
+
+  addMaskPairInput(inputGroupWrapper);
 
   addButtonContact.addEventListener('click', (event) => {
     event.preventDefault();
@@ -125,6 +155,22 @@ function createContactData() {
   return {divWrapper};
 }
 
+// вывод ошибок с сервера
+function displayListErrors(response, mainBtn) {
+  let divErrors = document.createElement('div');
+  divErrors.style.color = 'red';
+  divErrors.className = 'server_errors';
+  let oldMess = document.querySelector('.server_errors');
+  if (oldMess) oldMess.remove();
+  let data = '';
+  console.log('result.errors', response.errors.errors);
+  for (let err of response.errors.errors) {
+    data += '\n' + err.message;
+  }
+  divErrors.innerText = data;
+  mainBtn.before(divErrors);
+}
+
 // Создание модального окна нового клиента
 function createModalNewClient() {
   const modal = createModalWindowTemplate();
@@ -140,7 +186,7 @@ function createModalNewClient() {
     let label = document.createElement('label');
     let input = document.createElement('input');
     input.placeholder = obj.val;
-    input.required = obj.type !== 'lastName';
+    // input.required = obj.type !== 'lastName';
     input.id = obj.type;
     input.name = obj.type;
     label.htmlFor = obj.type;
@@ -159,14 +205,17 @@ function createModalNewClient() {
   modal.title.textContent = 'Новый клиент';
   form.append(sectionContact.divWrapper, modal.btnMain);
   modal.title.after(form);
-  // return {modalWindow: modal.winTemplate, form, btnMain: modal.btnMain}
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
     modal.btnMain.prepend(btnWaiting);
     const {parseFormData} = await import('./core.js');
-    if (await parseFormData(form)) {
+    let result = await parseFormData(form);
+    if (result.ok) {
       btnWaiting.remove();
       removeModalVisible(modal.winTemplate, modal.bgM);
+    } else {
+      displayListErrors(result, modal.btnMain);
+      btnWaiting.remove();
     }
   });
 }
