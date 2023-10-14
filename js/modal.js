@@ -46,7 +46,7 @@ function createModalWindowTemplate() {
     if (event.target === bgM) {
       funRMV(event);
     }
-  });
+  }, {'once': true});
   return {winTemplate, title, btnMain, btnCancel, bgM};
 }
 
@@ -73,31 +73,22 @@ function makeTextBlack(item) {
   });
 }
 
+function addMaskInput() {
+  console.log('функция нашлась');
+}
+
 function addMaskPairInput(groupElem) {
   const selectElem = groupElem.querySelector('select');
   const inputElem = groupElem.querySelector('input');
 
-  console.log('groupElem=', groupElem);
-  console.log('selectElem=', selectElem);
-  console.log('inputElem=', inputElem);
+  // console.log('groupElem=', groupElem);
+  // console.log('selectElem=', selectElem);
+  // console.log('inputElem=', inputElem);
 
-  selectElem.addEventListener('change', (ev) => {
-    console.log('selectElem.value=', selectElem.value);
-    if (['Телефон', 'Доп. телефон'].includes(selectElem.value)) {
-      inputElem.addEventListener('input', (ev) => {
-        const input = ev.target;
-        const val = input.value.replace(/\D/g, '');
-        if (val.length === 0) {
-          input.value = '';
-        } else if (val.length <= 3) {
-          input.value = `(${val})`;
-        } else if (val.length <= 6) {
-          input.value = `(${val.slice(0, 3)}) ${val.slice(3)}`;
-        } else {
-          input.value = `(${val.slice(0, 3)}) ${val.slice(3, 6)}-${val.slice(6, 10)}`;
-        }
-      });
-    }
+  selectElem.addEventListener('change', () => {
+    // const selectedOption = event.target.value;
+    const selectedOption = selectElem.value;
+    console.log(selectedOption);
   });
 }
 
@@ -135,20 +126,19 @@ function createContactData() {
   addButtonContact.className = 'btn_add_contact';
   inputGroupWrapper.className = 'group-input';
 
-  addMaskPairInput(inputGroupWrapper);
-
   addButtonContact.addEventListener('click', (event) => {
     event.preventDefault();
-    
     divWrapper.classList.add('padding-divWrapper');
     let collection = divWrapper.getElementsByClassName('group-input');
     if (collection && collection.length < 9) {
       let copyIGW = inputGroupWrapper.cloneNode(true);
       makeTextBlack(copyIGW.children[1]);
+      addMaskPairInput(copyIGW);
       addButtonContact.before(copyIGW);
     } else {
       makeTextBlack(inputGroupWrapper.children[1]);
       addButtonContact.before(inputGroupWrapper);
+      addMaskPairInput(inputGroupWrapper);
       addButtonContact.remove();
     }
   });
