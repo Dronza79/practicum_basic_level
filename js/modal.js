@@ -73,22 +73,52 @@ function makeTextBlack(item) {
   });
 }
 
-function addMaskInput() {
-  console.log('функция нашлась');
+//Функция набора номера согласно маске
+function createTelephoneMask(event) {
+  const inputElement = event.target;
+  const value = inputElement.value.replace(/\D/g, '');
+  if (value.length === 0) {
+    // console.log('length=', value.length, '(value.length <= 1):', value);
+    inputElement.value = '';
+  } else if (value.length <= 2) {
+    inputElement.value = `+7 (${value}`;
+  } else if (2 < value.length && value.length <= 4) {
+    inputElement.value = `+${value.slice(0, 1)} (${value.slice(1)}`;
+  } else if (4 < value.length && value.length <= 7) {
+    inputElement.value = `+${value.slice(0, 1)} (${value.slice(1, 4)}) ${value.slice(4)}`;
+  } else if (7 < value.length && value.length <= 9) {
+    inputElement.value = `+${value.slice(0, 1)} (${value.slice(1, 4)}) ${value.slice(4, 7)}-${value.slice(7)}`;
+  } else {
+    inputElement.value = `+${value.slice(0, 1)} (${value.slice(1, 4)}) ${value.slice(4, 7)}-${value.slice(7, 9)}-${value.slice(9, 11)}`;
+  }
 }
 
+// Функция связи элемента выбора и поля ввода. Добавление базовой валидации поля ввода
 function addMaskPairInput(groupElem) {
   const selectElem = groupElem.querySelector('select');
   const inputElem = groupElem.querySelector('input');
 
-  // console.log('groupElem=', groupElem);
-  // console.log('selectElem=', selectElem);
-  // console.log('inputElem=', inputElem);
-
   selectElem.addEventListener('change', () => {
-    // const selectedOption = event.target.value;
     const selectedOption = selectElem.value;
-    console.log(selectedOption);
+    if (['Телефон', 'Доп. телефон'].includes(selectedOption)) {
+      inputElem.type = 'tel';
+      inputElem.title = 'Телефон должен быть в 10-ти значном формате';
+      inputElem.removeAttribute('pattern');
+      inputElem.addEventListener('input', createTelephoneMask);
+    } else if (selectedOption === 'Email') {
+      inputElem.removeEventListener('input', createTelephoneMask);
+      inputElem.type = 'email';
+      inputElem.removeAttribute('title');
+      inputElem.removeAttribute('pattern');
+    } else if (selectedOption === 'Vk') {
+      inputElem.removeEventListener('input', createTelephoneMask);
+      inputElem.pattern = '^(vk\.com)\/[a-z0-9]+';
+      inputElem.title = 'Должно быть в формате vk.com/XXXXXX'
+    } else if (selectedOption === 'telegram') {
+      inputElem.removeEventListener('input', createTelephoneMask);
+      inputElem.pattern = '^(t\.me)\/[a-z0-9]+';
+      inputElem.title = 'Должно быть в формате t.me/XXXXXX'
+    }
   });
 }
 
@@ -101,7 +131,7 @@ function createContactData() {
   const choices = document.createElement('select');
   const inputContact = document.createElement('input');
 
-  const listContact = ["Тип контакта", 'Телефон', 'Доп. телефон', 'Email', 'Vk', 'Facebook'];
+  const listContact = ["Тип контакта", 'Телефон', 'Доп. телефон', 'Email', 'Vk', 'telegram'];
   for (let val of listContact) {
     let option = document.createElement('option');
     option.value = val !== 'Тип контакта' ?  val : '';
