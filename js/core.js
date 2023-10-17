@@ -1,4 +1,4 @@
-export {parseFormData};
+export {parseFormData, getListClients};
 
 async function parseFormData(form) {
 	let data = new FormData(form);
@@ -28,4 +28,11 @@ async function parseFormData(form) {
 	let errors = await response.json()
 	// console.log(err);
 	return {ok: response.ok, errors};
+}
+
+async function getListClients() {
+	let response = await fetch('http://localhost:3000/api/clients');
+	let listClients = await response.json();
+	console.log(listClients);
+	console.log(Array.isArray(listClients));
 }

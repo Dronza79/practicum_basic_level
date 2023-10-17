@@ -9,14 +9,17 @@
     return {tHead, sch, addBtn, tBody};
   }
   
-  document.addEventListener("DOMContentLoaded", () => {
+  document.addEventListener("DOMContentLoaded", async () => {
     const html = getHTMLElement();
+    const {getListClients} = await import('./core.js');
+    await getListClients(); // Получение списка клиентов
     
     // Обработка нажатия кнопки "Добавить клиента"
     html.addBtn.addEventListener('click',  async (event) => {
       event.preventDefault();
       const {createModalNewClient} = await import('./modal.js');
       createModalNewClient(); // Создание нового клиента в модальном окне
+      
       
       
     });
