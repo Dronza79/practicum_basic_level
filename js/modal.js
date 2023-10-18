@@ -94,7 +94,7 @@ function addMaskPairInput(groupElem) {
 	
 	selectElem.addEventListener('change', () => {
 		const selectedOption = selectElem.value;
-		if (['Телефон', 'Доп. телефон'].includes(selectedOption)) {
+		if (['Телефон', 'Мобильный'].includes(selectedOption)) {
 			inputElem.type = 'tel';
 			inputElem.title = 'Телефон должен быть в 10-ти значном формате';
 			inputElem.removeAttribute('pattern');
@@ -134,7 +134,7 @@ function createContactData() {
 	const inputContact = document.createElement('input');
 	const btnCloseContact = document.createElement('button');
 	
-	const listContact = ["Тип контакта", 'Телефон', 'Доп. телефон', 'Email', 'Vk', 'telegram'];
+	const listContact = ["Тип контакта", 'Телефон', 'Мобильный', 'Email', 'Vk', 'telegram'];
 	for (let val of listContact) {
 		let option = document.createElement('option');
 		option.value = val !== 'Тип контакта' ? val : '';
