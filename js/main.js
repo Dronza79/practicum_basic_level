@@ -1,3 +1,5 @@
+import {createBodyTable} from "./table";
+
 (() => {
 
   // Получение всех готовых элементов со страницы
@@ -11,8 +13,8 @@
   
   document.addEventListener("DOMContentLoaded", async () => {
     const html = getHTMLElement();
-    const {getListClients} = await import('./core.js');
-    await getListClients(); // Получение списка клиентов
+    const {createBodyTable} = await import('./core.js');
+    await createBodyTable(html.tBody); // Формирование тела таблицы клиентов на основании списка
     
     // Обработка нажатия кнопки "Добавить клиента"
     html.addBtn.addEventListener('click',  async (event) => {
