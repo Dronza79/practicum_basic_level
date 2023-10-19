@@ -92,24 +92,30 @@ function addMaskPairInput(groupElem) {
 	const selectElem = groupElem.querySelector('select');
 	const inputElem = groupElem.querySelector('input');
 	
+	inputElem.disabled = true;
+	
 	selectElem.addEventListener('change', () => {
 		const selectedOption = selectElem.value;
 		if (['Телефон', 'Мобильный'].includes(selectedOption)) {
 			inputElem.type = 'tel';
+			inputElem.disabled = false;
 			inputElem.title = 'Телефон должен быть в 10-ти значном формате';
 			inputElem.removeAttribute('pattern');
 			inputElem.addEventListener('input', createTelephoneMask);
 		} else if (selectedOption === 'Email') {
 			inputElem.removeEventListener('input', createTelephoneMask);
+			inputElem.disabled = false;
 			inputElem.type = 'email';
 			inputElem.removeAttribute('title');
 			inputElem.removeAttribute('pattern');
 		} else if (selectedOption === 'Vk') {
 			inputElem.removeEventListener('input', createTelephoneMask);
+			inputElem.disabled = false;
 			inputElem.pattern = '^(vk\.com)\/[a-z0-9]+';
 			inputElem.title = 'Должно быть в формате vk.com/XXXXXX'
 		} else if (selectedOption === 'telegram') {
 			inputElem.removeEventListener('input', createTelephoneMask);
+			inputElem.disabled = false;
 			inputElem.pattern = '^(t\.me)\/[a-z0-9]+';
 			inputElem.title = 'Должно быть в формате t.me/XXXXXX'
 		}
@@ -234,8 +240,11 @@ function createModalNewClient() {
 	modal.title.textContent = 'Новый клиент';
 	form.append(sectionContact.divWrapper, modal.btnMain);
 	modal.title.after(form);
-	form.addEventListener('submit', async (event) => {
+	
+	modal.btnMain.addEventListener('click', async (event) => {
 		event.preventDefault();
+		console.log(event);
+		console.log('Нажата кнопка субмит', );
 		modal.btnMain.prepend(btnWaiting);
 		const {parseFormData} = await import('./core.js');
 		let result = await parseFormData(form);

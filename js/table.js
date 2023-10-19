@@ -18,11 +18,18 @@ function createCellTableDate(dateString) {
   const cell = document.createElement('td');
   const date = document.createElement('span');
   const time = document.createElement('span');
-  const parseDate = new Date(String(dateString.slice(0, 10)));
-  const formater = new Intl.DateTimeFormat();
+  const formatter = new Intl.DateTimeFormat('ru-RU', {
+    timeZone: "Europe/Moscow",
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    hour12: false,});
+  const parseDate = formatter.format(new Date(String(dateString)));
   
-  date.textContent = formater.format(parseDate);
-  time.textContent = dateString.slice(11, 16);
+  date.textContent = parseDate.slice(0, 10);
+  time.textContent = parseDate.slice(12);
   
   date.style.color = '#333';
   date.style.marginRight = '10px';
@@ -59,6 +66,7 @@ function createCellTableContacts(contacts) {
     copyContact.children[0].children[0].textContent = dataCont.type;
     copyContact.children[0].children[1].textContent = dataCont.value;
     copyContact.children[1].style.width = '16px';
+    let tableBody = document.getElementById('t-body');
     ['Телефон', 'Мобильный'].includes(dataCont.type)
       ? copyContact.children[1].src = 'img/phone.png'
       : ['Email'].includes(dataCont.type)
@@ -70,11 +78,13 @@ function createCellTableContacts(contacts) {
             : copyContact.children[1].src = 'img/other.svg';
     copyContact.addEventListener('mouseenter', (event) => {
       copyContact.children[0].classList.remove('hidden');
-      // copyContact.children[1].parentNode.parentNode.parentNode.parentNode.style.marginTop = '37px';
+      copyContact.children[1].style.opacity = '1';
+      tableBody.classList.toggle("overflow");
     });
     copyContact.addEventListener('mouseleave', (event) => {
       copyContact.children[0].classList.add('hidden');
-      // copyContact.children[1].parentNode.parentNode.parentNode.parentNode.style.marginTop = '0';
+      copyContact.children[1].style.opacity = '0.7';
+      // tableBody.style.overflow = 'auto';
     });
     cell.append(copyContact);
   }
