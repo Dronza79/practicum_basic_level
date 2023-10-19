@@ -34,11 +34,13 @@ async function createBodyTable(htmlElement) {
   let response = await fetch('http://localhost:3000/api/clients');
   let listClients = await response.json();
   let tableBody = document.createElement('table');
+  tableBody.className = 'table_clients';
   console.log(listClients);
   console.log(Array.isArray(listClients));
-  const {generateClientData} = await import('./table.js');
+  htmlElement.innerHTML =  '';
   for (const client of listClients) {
-    tableBody.append(generateClientData(client)); // Добавление строки с данными клиента
+    const {generateStringClientData} = await import('./table.js');
+    tableBody.append(generateStringClientData(client)); // Добавление строки с данными клиента
   }
   htmlElement.append(tableBody);
 }
