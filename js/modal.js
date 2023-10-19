@@ -10,14 +10,14 @@ function removeModalVisible(windowModal, modalBackGround) {
 // Создание шаблона модального окна
 function createModalWindowTemplate() {
 	const winTemplate = document.createElement('div');
-	const btnClose = document.createElement('button');
+	const btnClose = document.createElement('img');
 	const btnMain = document.createElement('button');
 	const btnCancel = document.createElement('button');
 	const title = document.createElement('h3');
 	const img = document.createElement('img');
 	const bgM = document.getElementById('bgModal');
-	
-	img.src = 'img/close.svg';
+
+	btnClose.src = 'img/close.svg';
 	btnCancel.textContent = 'Отмена';
 	title.classList.add('modal-title');
 	btnClose.classList.add('modal-btnClose');
@@ -26,7 +26,6 @@ function createModalWindowTemplate() {
 	bgM.classList.add('modal-visible');
 	winTemplate.classList.add('win-active', 'modal-window');
 	
-	btnClose.append(img);
 	winTemplate.append(title, btnClose, btnMain, btnCancel);
 	bgM.textContent = '';
 	bgM.append(winTemplate);
@@ -35,6 +34,7 @@ function createModalWindowTemplate() {
 	
 	function funRMV(event) {
 		event.preventDefault();
+		console.log(event.target);
 		if (event.target === this) removeModalVisible(winTemplate, bgM);
 	}
 	
