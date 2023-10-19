@@ -16,15 +16,15 @@ async function parseFormData(form) {
   }
   person.contacts = contacts;
 
-  console.log('person=', person);
+  // console.log('person=', person);
   // let json = JSON.stringify(person);
   let response = await fetch('http://localhost:3000/api/clients', {
     method: 'POST',
     body: JSON.stringify(person),
     headers: {'Content-Type': 'application/json; charset=utf-8'}
   });
-  console.log(response.ok);
-  console.log(response.status);
+  // console.log(response.ok);
+  // console.log(response.status);
   let errors = await response.json()
   // console.log(err);
   return {ok: response.ok, errors};
@@ -35,12 +35,16 @@ async function createBodyTable(htmlElement) {
   let listClients = await response.json();
   let tableBody = document.createElement('table');
   tableBody.className = 'table_clients';
-  console.log(listClients);
-  console.log(Array.isArray(listClients));
+  // console.log(listClients);
+  // console.log(Array.isArray(listClients));
   htmlElement.innerHTML =  '';
   for (const client of listClients) {
     const {generateStringClientData} = await import('./table.js');
-    tableBody.append(generateStringClientData(client)); // Добавление строки с данными клиента
+    let stringClient = generateStringClientData(client);
+    tableBody.append(stringClient.stringTable); // Добавление строки с данными клиента
+    // console.log(stringClient.contacts);
   }
+  // console.log(htmlElement);
   htmlElement.append(tableBody);
+
 }
