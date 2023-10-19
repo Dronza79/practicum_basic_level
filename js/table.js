@@ -68,6 +68,14 @@ function createCellTableContacts(contacts) {
           : ['telegram'].includes(dataCont.type)
             ? copyContact.children[1].src = 'img/telegram.svg'
             : copyContact.children[1].src = 'img/other.svg';
+    copyContact.addEventListener('mouseenter', (event) => {
+      copyContact.children[0].classList.remove('hidden');
+      // copyContact.children[1].parentNode.parentNode.parentNode.parentNode.style.marginTop = '37px';
+    });
+    copyContact.addEventListener('mouseleave', (event) => {
+      copyContact.children[0].classList.add('hidden');
+      // copyContact.children[1].parentNode.parentNode.parentNode.parentNode.style.marginTop = '0';
+    });
     cell.append(copyContact);
   }
   return cell;
@@ -108,6 +116,7 @@ function generateStringClientData(clientData) {
 
   actions.append(btnEdit, btnDelete);
   stringTable.append(cellID, username, createAt, updateAt, contacts, actions);
-  return stringTable;
+  // console.log(contacts);
+  return {stringTable, contacts};
   }
   
