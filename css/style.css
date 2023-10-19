@@ -127,6 +127,7 @@ body {
   width: 100%;
   position: relative;
   overflow: auto;
+  z-index: 20;
 }
 
 .table-await {
@@ -374,4 +375,79 @@ body {
   text-align: center;
   margin-top: -10px;
   margin-bottom: 25px;
+}
+
+.table_clients {
+  font-size: 14px;
+  word-break: break-all;
+  border-collapse: collapse;
+  /*margin-top: 37px;*/
+  z-index: 70;
+}
+
+.string_data {
+  border-bottom: 1px solid #B0B0B0;
+  height: 60px;
+}
+
+.cell_5 {
+  width: 5%;
+  font-size: 12px;
+  color: #B0B0B0;
+}
+
+.cell_25 {
+  width: 25%;
+  word-break: break-word;
+  padding-left: 5px;
+}
+
+.cell_15 {
+  width: 15%;
+}
+
+.table_btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.contact_data {
+  position: relative;
+  display: inline;
+}
+
+.contact_data:not(:nth-child(5)) {
+  margin-right: 10px;
+}
+
+.ref_contact_data {
+  position: absolute;
+  width: 134px;
+  height: 37px;
+  left: -59px;
+  top: -50px;
+  color: #FFFFFF;
+  font-size: 11px;
+  background-color: #333333;
+  padding: 5px 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  opacity: 1;
+}
+
+.ref_contact_data:before {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  border: 9px solid transparent;
+  border-top-color: #333333;
+  margin-left: -9px;
+}
+
+.hidden {
+  opacity: 0;
 }
