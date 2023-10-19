@@ -1,5 +1,3 @@
-import {createBodyTable} from "./table";
-
 (() => {
 
   // Получение всех готовых элементов со страницы
