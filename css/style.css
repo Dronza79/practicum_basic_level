@@ -126,7 +126,7 @@ body {
   height: 300px;
   width: 100%;
   position: relative;
-  overflow: auto;
+  /*overflow: auto;*/
   z-index: 20;
 }
 
@@ -382,7 +382,7 @@ body {
   word-break: break-all;
   border-collapse: collapse;
   /*margin-top: 37px;*/
-  z-index: 70;
+  transition: all .3s;
 }
 
 .string_data {
@@ -410,14 +410,19 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 5px;
+  cursor: pointer;
 }
 
 .contact_data {
   position: relative;
-  display: inline;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  height: 20px;
+  width: 20px;
 }
 
-.contact_data:not(:nth-child(5)) {
+.contact_data:not(:nth-child(5n)) {
   margin-right: 10px;
 }
 
@@ -436,6 +441,8 @@ body {
   justify-content: center;
   z-index: 100;
   opacity: 1;
+  visibility: visible;
+  transition: all .3s .5s;
 }
 
 .ref_contact_data:before {
@@ -450,4 +457,5 @@ body {
 
 .hidden {
   opacity: 0;
+  visibility: hidden;
 }
