@@ -9,7 +9,7 @@ export {generateStringClientData}
 //   lastName: 'Васильевич',
 //   contacts: [
 //   {
-//     type: 'Телефон',
+//     type: 'тел.',
 //     value: '+71234567890'
 //   }]
 // }
@@ -66,25 +66,36 @@ function createCellTableContacts(contacts) {
     copyContact.children[0].children[0].textContent = dataCont.type;
     copyContact.children[0].children[1].textContent = dataCont.value;
     copyContact.children[1].style.width = '16px';
-    let tableBody = document.getElementById('t-body');
-    ['Телефон', 'Мобильный'].includes(dataCont.type)
+    // let tableBody = document.getElementById('t-body');
+    ['тел.', 'моб.'].includes(dataCont.type)
       ? copyContact.children[1].src = 'img/phone.png'
-      : ['Email'].includes(dataCont.type)
+      : ['email'].includes(dataCont.type)
         ? copyContact.children[1].src = 'img/mail.svg'
         : ['Vk'].includes(dataCont.type)
           ? copyContact.children[1].src = 'img/vk.svg'
           : ['telegram'].includes(dataCont.type)
             ? copyContact.children[1].src = 'img/telegram.svg'
             : copyContact.children[1].src = 'img/other.svg';
+    // console.log(copyContact.parentNode.parentNode.parentNode)
     copyContact.addEventListener('mouseenter', (event) => {
       copyContact.children[0].classList.remove('hidden');
       copyContact.children[1].style.opacity = '1';
-      tableBody.classList.toggle("overflow");
+
+      // console.log(copyContact.parentNode)
+      let table = copyContact.parentNode.parentNode.parentNode; // получение родительской таблицы
+      let str = copyContact.parentNode.parentNode; // получение родительской строки
+      // console.log(table.children[0] === str);
+      if (table.children[0] === str) table.classList.add('margin-top');
     });
     copyContact.addEventListener('mouseleave', (event) => {
       copyContact.children[0].classList.add('hidden');
       copyContact.children[1].style.opacity = '0.7';
-      // tableBody.style.overflow = 'auto';
+      console.log('event.target=', event.target);
+      console.log('event.relatedTarget=', event.relatedTarget);
+      let table = copyContact.parentNode.parentNode.parentNode; // получение родительской таблицы
+      let str = copyContact.parentNode.parentNode; // получение родительской строки
+      let timeout = setTimeout(() => table.classList.remove('margin-top'), 2000);
+      if (table.children[0] === str) clearTimeout(timeout);
     });
     cell.append(copyContact);
   }
@@ -118,7 +129,7 @@ function generateStringClientData(clientData) {
   username.className = 'cell_25';
   createAt.className = 'cell_15';
   updateAt.className = 'cell_15';
-  contacts.className = 'cell_15';
+  contacts.className = 'cell_13';
   actions.className = 'cell_25';
   btnEdit.className = 'table_btn';
   btnDelete.className = 'table_btn';
