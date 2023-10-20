@@ -1,3 +1,5 @@
+const {deleteClientToServer} = await import("./core.js");
+
 export {generateStringClientData}
 
 // {
@@ -38,29 +40,15 @@ function createCellTableDate(dateString) {
   cell.append(date, time);
   return cell;
 }
-// function getReplacedValue(stringContact) {
-//   const result = [
-//     ['тел.', 'phone'], ['моб.', 'mobile'],
-//     ['E-почта', 'email'], ['ВКонтакте', 'vk'],
-//     ['Телеграм', 'tg']].find((el) => {
-//     return el.includes(stringContact);
-//   });
-//   return String(result.splice(result.indexOf(stringContact), 1));
-// }
-//
-// console.log("моб.=", getReplacedValue('моб.'));
-// console.log("mobile=", getReplacedValue('mobile'));
-// console.log("ВКонтакте=", getReplacedValue('ВКонтакте'));
-// console.log("tg=", getReplacedValue('tg'));
 
+// Функция предоставления соответствия типа контакта
 function getReplacedValue(stringContact) {
   const result = [
     ['тел.', 'phone'], ['моб.', 'mobile'],
-    ['E-почта', 'email'], ['ВКонтакте', 'vk'],
-    ['Телеграм', 'tg']].find((el) => {
-      return el.includes(stringContact);
-  });
-  return String(result.splice(result.indexOf(stringContact), 1));
+    ['E-почта', 'email'], ['ВК', 'vk'],
+    ['ТГ', 'tg']].find((el) => el.includes(stringContact));
+  if (result) result.splice(result.indexOf(stringContact), 1);
+  return result ? String(result): 'notype';
 }
 
 // https://snipp.ru/html-css/arrow-blocks#link-strelki-sverhu блок со стрелкой
@@ -91,13 +79,13 @@ function createCellTableContacts(contacts) {
     copyContact.children[0].children[1].textContent = dataCont.value;
     copyContact.children[1].style.width = '16px';
     // let tableBody = document.getElementById('t-body');
-    ['тел.', 'моб.'].includes(dataCont.type)
+    ['phone', 'mobile'].includes(dataCont.type)
       ? copyContact.children[1].src = 'img/phone.png'
       : ['email'].includes(dataCont.type)
         ? copyContact.children[1].src = 'img/mail.svg'
-        : ['Vk'].includes(dataCont.type)
+        : ['vk'].includes(dataCont.type)
           ? copyContact.children[1].src = 'img/vk.svg'
-          : ['telegram'].includes(dataCont.type)
+          : ['tg'].includes(dataCont.type)
             ? copyContact.children[1].src = 'img/telegram.svg'
             : copyContact.children[1].src = 'img/other.svg';
     // console.log(copyContact.parentNode.parentNode.parentNode)
@@ -114,8 +102,8 @@ function createCellTableContacts(contacts) {
     copyContact.addEventListener('mouseleave', (event) => {
       copyContact.children[0].classList.add('hidden');
       copyContact.children[1].style.opacity = '0.7';
-      console.log('event.target=', event.target);
-      console.log('event.relatedTarget=', event.relatedTarget);
+      // console.log('event.target=', event.target);
+      // console.log('event.relatedTarget=', event.relatedTarget);
       let table = copyContact.parentNode.parentNode.parentNode; // получение родительской таблицы
       let str = copyContact.parentNode.parentNode; // получение родительской строки
       let timeout = setTimeout(() => table.classList.remove('margin-top'), 2000);
@@ -161,7 +149,10 @@ function generateStringClientData(clientData) {
 
   actions.append(btnEdit, btnDelete);
   stringTable.append(cellID, username, createAt, updateAt, contacts, actions);
-  // console.log(contacts);
-  return {stringTable, contacts};
+  
+  btnDelete.addEventListener('click', () => {
+    deleteClientToServer(clientData.id);
+  });
+  return stringTable;
   }
   

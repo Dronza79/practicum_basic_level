@@ -1,4 +1,4 @@
-export {createModalConfirm, createModalNewClient}
+export {createModalConfirm, createModalNewClient, removeModalVisible}
 
 // Функция скрытия модального окна
 function removeModalVisible(windowModal, modalBackGround) {
@@ -34,7 +34,7 @@ function createModalWindowTemplate() {
 	
 	function funRMV(event) {
 		event.preventDefault();
-		console.log(event.target);
+		// console.log(event.target);
 		if (event.target === this) removeModalVisible(winTemplate, bgM);
 	}
 	
@@ -56,7 +56,12 @@ function createModalConfirm() {
 	templateModal.btnMain.textContent = 'Удалить';
 	
 	templateModal.title.after(descr);
-	return {btnMain: templateModal.btnMain}
+	
+	return {
+		btn: templateModal.btnMain,
+		window: templateModal.winTemplate,
+		bgM: templateModal.bgM
+	}
 }
 
 // Изменение цвета текста в поле ввода
@@ -96,24 +101,24 @@ function addMaskPairInput(groupElem) {
 	
 	selectElem.addEventListener('change', () => {
 		const selectedOption = selectElem.value;
-		if (['Телефон', 'Мобильный'].includes(selectedOption)) {
+		if (['phone', 'mobile'].includes(selectedOption)) {
 			inputElem.type = 'tel';
 			inputElem.disabled = false;
 			inputElem.title = 'Телефон должен быть в 10-ти значном формате';
 			inputElem.removeAttribute('pattern');
 			inputElem.addEventListener('input', createTelephoneMask);
-		} else if (selectedOption === 'Email') {
+		} else if (selectedOption === 'email') {
 			inputElem.removeEventListener('input', createTelephoneMask);
 			inputElem.disabled = false;
 			inputElem.type = 'email';
 			inputElem.removeAttribute('title');
 			inputElem.removeAttribute('pattern');
-		} else if (selectedOption === 'Vk') {
+		} else if (selectedOption === 'vk') {
 			inputElem.removeEventListener('input', createTelephoneMask);
 			inputElem.disabled = false;
 			inputElem.pattern = '^(vk\.com)\/[a-z0-9]+';
 			inputElem.title = 'Должно быть в формате vk.com/XXXXXX'
-		} else if (selectedOption === 'telegram') {
+		} else if (selectedOption === 'tg') {
 			inputElem.removeEventListener('input', createTelephoneMask);
 			inputElem.disabled = false;
 			inputElem.pattern = '^(t\.me)\/[a-z0-9]+';
@@ -246,8 +251,6 @@ function createModalNewClient() {
 	
 	modal.btnMain.addEventListener('click', async (event) => {
 		event.preventDefault();
-		console.log(event);
-		console.log('Нажата кнопка субмит', );
 		modal.btnMain.prepend(btnWaiting);
 		const {parseFormData} = await import('./core.js');
 		let result = await parseFormData(form);
