@@ -14,7 +14,7 @@ function createModalWindowTemplate() {
 	const btnMain = document.createElement('button');
 	const btnCancel = document.createElement('button');
 	const title = document.createElement('h3');
-	const img = document.createElement('img');
+	// const img = document.createElement('img');
 	const bgM = document.getElementById('bgModal');
 
 	btnClose.src = 'img/close.svg';
@@ -140,14 +140,17 @@ function createContactData() {
 	const inputContact = document.createElement('input');
 	const btnCloseContact = document.createElement('button');
 	
-	const listContact = ["Тип контакта", 'Телефон', 'Мобильный', 'Email', 'Vk', 'telegram'];
+	const listContact = [
+		["Тип контакта", ''], ['Телефон', 'phone'], ['Мобильный', 'mobile'],
+		['E-почта', 'email'], ['ВКонтакте', 'vk'], ['Телеграм', 'tg']];
 	for (let val of listContact) {
 		let option = document.createElement('option');
-		option.value = val !== 'Тип контакта' ? val : '';
+		option.value = val[1];
 		// if (val === 'Email') option.setAttribute('selected', 'true');
-		option.textContent = val;
+		option.textContent = val[0];
 		choices.append(option);
 	}
+	// btnCloseContact.innerHTML = '<img src="../img/cancel.svg"/>';
 	btnCloseContact.innerHTML = '<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">\n' +
 		'<path d="M6 0C2.682 0 0 2.682 0 6C0 9.318 2.682 12 6 12C9.318 12 12 9.318 12 6C12 2.682 9.318 0 6 0ZM6 10.8C3.354 10.8 1.2 8.646 1.2 6C1.2 3.354 3.354 1.2 6 1.2C8.646 1.2 10.8 3.354 10.8 6C10.8 8.646 8.646 10.8 6 10.8ZM8.154 3L6 5.154L3.846 3L3 3.846L5.154 6L3 8.154L3.846 9L6 6.846L8.154 9L9 8.154L6.846 6L9 3.846L8.154 3Z" fill="currentColor"/>\n' +
 		'</svg>';
