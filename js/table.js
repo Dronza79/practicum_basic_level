@@ -38,6 +38,30 @@ function createCellTableDate(dateString) {
   cell.append(date, time);
   return cell;
 }
+// function getReplacedValue(stringContact) {
+//   const result = [
+//     ['тел.', 'phone'], ['моб.', 'mobile'],
+//     ['E-почта', 'email'], ['ВКонтакте', 'vk'],
+//     ['Телеграм', 'tg']].find((el) => {
+//     return el.includes(stringContact);
+//   });
+//   return String(result.splice(result.indexOf(stringContact), 1));
+// }
+//
+// console.log("моб.=", getReplacedValue('моб.'));
+// console.log("mobile=", getReplacedValue('mobile'));
+// console.log("ВКонтакте=", getReplacedValue('ВКонтакте'));
+// console.log("tg=", getReplacedValue('tg'));
+
+function getReplacedValue(stringContact) {
+  const result = [
+    ['тел.', 'phone'], ['моб.', 'mobile'],
+    ['E-почта', 'email'], ['ВКонтакте', 'vk'],
+    ['Телеграм', 'tg']].find((el) => {
+      return el.includes(stringContact);
+  });
+  return String(result.splice(result.indexOf(stringContact), 1));
+}
 
 // https://snipp.ru/html-css/arrow-blocks#link-strelki-sverhu блок со стрелкой
 // https://learn.javascript.ru/mousemove-mouseover-mouseout-mouseenter-mouseleave наведение мышью
@@ -63,7 +87,7 @@ function createCellTableContacts(contacts) {
   if (!contacts) return cell;
   for (let dataCont of contacts) {
     let copyContact = contact.cloneNode(true);
-    copyContact.children[0].children[0].textContent = dataCont.type;
+    copyContact.children[0].children[0].textContent = getReplacedValue(dataCont.type);
     copyContact.children[0].children[1].textContent = dataCont.value;
     copyContact.children[1].style.width = '16px';
     // let tableBody = document.getElementById('t-body');
