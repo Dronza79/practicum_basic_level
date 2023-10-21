@@ -2,6 +2,7 @@ export {parseFormData, createBodyTable, deleteClientToServer};
 
 const SERVER = 'http://localhost:3000/api/clients';
 
+// Функция составления клиента из формы и отправки его на сервер
 async function parseFormData(form) {
 	let data = new FormData(form);
 	const person = {};
@@ -31,10 +32,36 @@ async function parseFormData(form) {
 	return {ok: response.ok, errors};
 }
 
-async function createBodyTable() {
+// Функция провередения сортировки полученного списка клиентов
+function getSortedList(listClients, typeSorted) {
+	let arg = typeSorted.split('_');
+	if (arg[0] === 'username') {
+		listClients.sort((a, b) => {
+			if (a.surname === b.surname) {
+				if (a.name === b.name) {
+					if (a.lastName > b.lastName) {
+						return 1;
+					} else return -1;
+				} else if (a.name > b.name) {
+					return 1;
+				} else return -1;
+			} else if (a.surname > b.surname) {
+				return 1;
+			} else return -1;
+		});
+	} else if (arg[0] === 'id') {
+		listClients.sort((a, b) => Number(a.id) - Number(b.id));
+	} else listClients.sort((a, b) => Date.parse(a[arg]) - Date.parse(b[arg]));
+	if (arg[1] === 'up') listClients.reverse();
+	return listClients;
+}
+
+// Функция отрисовки таблицы с учетом выбранной сортировки
+async function createBodyTable(sorted) {
 	const htmlElement = document.getElementById('t-body');
 	let response = await fetch(SERVER);
 	let listClients = await response.json();
+	if (sorted) listClients = getSortedList(listClients, sorted);
 	let tableBody = document.createElement('table');
 	const {generateStringClientData} = await import('./table.js');
 	
@@ -48,6 +75,7 @@ async function createBodyTable() {
 	htmlElement.append(tableBody);
 }
 
+// Функция удаления выбранного клиента с сервера
 async function deleteClientToServer(IdClient) {
 	const {createModalConfirm} = await import('./modal.js');
 	let confirmDelete = createModalConfirm().btn;
