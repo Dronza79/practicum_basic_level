@@ -16,6 +16,7 @@ export {generateStringClientData}
 //   }]
 // }
 
+// Функция генерации данных в ячейках , связаных с датами
 function createCellTableDate(dateString) {
   const cell = document.createElement('td');
   const date = document.createElement('span');
@@ -51,9 +52,7 @@ function getReplacedValue(stringContact) {
   return result ? String(result): 'notype';
 }
 
-// https://snipp.ru/html-css/arrow-blocks#link-strelki-sverhu блок со стрелкой
-// https://learn.javascript.ru/mousemove-mouseover-mouseout-mouseenter-mouseleave наведение мышью
-
+// Функция генерации ячейки с контактами клиента
 function createCellTableContacts(contacts) {
   const cell = document.createElement('td');
   const contact = document.createElement('div');
@@ -89,7 +88,7 @@ function createCellTableContacts(contacts) {
             ? copyContact.children[1].src = 'img/telegram.svg'
             : copyContact.children[1].src = 'img/other.svg';
     // console.log(copyContact.parentNode.parentNode.parentNode)
-    copyContact.addEventListener('mouseenter', (event) => {
+    copyContact.addEventListener('mouseenter', () => {
       copyContact.children[0].classList.remove('hidden');
       copyContact.children[1].style.opacity = '1';
 
@@ -99,7 +98,7 @@ function createCellTableContacts(contacts) {
       // console.log(table.children[0] === str);
       if (table.children[0] === str) table.classList.add('margin-top');
     });
-    copyContact.addEventListener('mouseleave', (event) => {
+    copyContact.addEventListener('mouseleave', () => {
       copyContact.children[0].classList.add('hidden');
       copyContact.children[1].style.opacity = '0.7';
       // console.log('event.target=', event.target);
@@ -114,6 +113,7 @@ function createCellTableContacts(contacts) {
   return cell;
 }
 
+// Функция генерации строки с данными клиента
 function generateStringClientData(clientData) {
   const stringTable = document.createElement('tr');
   const cellID = document.createElement('td');
@@ -151,7 +151,7 @@ function generateStringClientData(clientData) {
   stringTable.append(cellID, username, createAt, updateAt, contacts, actions);
   
   btnDelete.addEventListener('click', () => {
-    deleteClientToServer(clientData.id);
+    deleteClientToServer(clientData.id).then(r => r);
   });
   return stringTable;
   }
