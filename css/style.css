@@ -473,3 +473,7 @@ body {
   opacity: 0;
   visibility: hidden;
 }
+
+.string_data:hover {
+  background-color: rgba(207, 207, 211, 0.57);
+}

@@ -89,8 +89,11 @@ function createCellTableContacts(contacts) {
       tooltip.children[1].textContent = dataCont.value;
       let loc = copyContact.getBoundingClientRect();
       let tooltipDim = tooltip.getBoundingClientRect();
-      tooltip.style.left = `${loc.x - tooltipDim.width / 2 + loc.width / 2}px`;
-      tooltip.style.top = `${loc.y - tooltipDim.height - 9}px`;
+      console.log(loc);
+      console.log(document.documentElement.scrollTop);
+      let delta = document.documentElement.scrollTop;
+      tooltip.style.left = `${loc.left - tooltipDim.width / 2 + loc.width / 2}px`;
+      tooltip.style.top = `${delta + loc.top - tooltipDim.height - 9}px`;
       tooltip.classList.remove('hidden');
       copyContact.children[0].style.opacity = '1';
     });
