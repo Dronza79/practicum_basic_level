@@ -57,7 +57,7 @@ function createCellTableContacts(contacts) {
   const cell = document.createElement('td');
   const contact = document.createElement('div');
   const icon = document.createElement('img');
-  const tooltip = document.createElement('div');
+  const tooltip = document.querySelector('.ref_contact_data');
   const tooltipType = document.createElement('span');
   const tooltipValue = document.createElement('span');
   
@@ -69,44 +69,34 @@ function createCellTableContacts(contacts) {
   icon.style.opacity = '0.7';
   tooltip.prepend(tooltipType);
   tooltip.append(tooltipValue);
-  contact.append(tooltip, icon);
+  contact.append(icon);
   
   if (!contacts) return cell;
   for (let dataCont of contacts) {
     let copyContact = contact.cloneNode(true);
-    copyContact.children[0].children[0].textContent = getReplacedValue(dataCont.type);
-    copyContact.children[0].children[1].textContent = dataCont.value;
-    copyContact.children[1].style.width = '16px';
-    // let tableBody = document.getElementById('t-body');
+    copyContact.children[0].style.width = '16px';
     ['phone', 'mobile'].includes(dataCont.type)
-      ? copyContact.children[1].src = 'img/phone.png'
+      ? copyContact.children[0].src = 'img/phone.png'
       : ['email'].includes(dataCont.type)
-        ? copyContact.children[1].src = 'img/mail.svg'
+        ? copyContact.children[0].src = 'img/mail.svg'
         : ['vk'].includes(dataCont.type)
-          ? copyContact.children[1].src = 'img/vk.svg'
+          ? copyContact.children[0].src = 'img/vk.svg'
           : ['tg'].includes(dataCont.type)
-            ? copyContact.children[1].src = 'img/telegram.svg'
-            : copyContact.children[1].src = 'img/other.svg';
-    // console.log(copyContact.parentNode.parentNode.parentNode)
+            ? copyContact.children[0].src = 'img/telegram.svg'
+            : copyContact.children[0].src = 'img/other.svg';
     copyContact.addEventListener('mouseenter', () => {
-      copyContact.children[0].classList.remove('hidden');
-      copyContact.children[1].style.opacity = '1';
-
-      // console.log(copyContact.parentNode)
-      let table = copyContact.parentNode.parentNode.parentNode; // получение родительской таблицы
-      let str = copyContact.parentNode.parentNode; // получение родительской строки
-      // console.log(table.children[0] === str);
-      if (table.children[0] === str) table.classList.add('margin-top');
+      tooltip.children[0].textContent = getReplacedValue(dataCont.type);
+      tooltip.children[1].textContent = dataCont.value;
+      let loc = copyContact.getBoundingClientRect();
+      let tooltipDim = tooltip.getBoundingClientRect();
+      tooltip.style.left = `${loc.x - (tooltipDim.width / 2) + 9}px`;
+      tooltip.style.top = `${loc.y - (tooltipDim.height + 9)}px`;
+      tooltip.classList.remove('hidden');
+      copyContact.children[0].style.opacity = '1';
     });
     copyContact.addEventListener('mouseleave', () => {
-      copyContact.children[0].classList.add('hidden');
-      copyContact.children[1].style.opacity = '0.7';
-      // console.log('event.target=', event.target);
-      // console.log('event.relatedTarget=', event.relatedTarget);
-      let table = copyContact.parentNode.parentNode.parentNode; // получение родительской таблицы
-      let str = copyContact.parentNode.parentNode; // получение родительской строки
-      let timeout = setTimeout(() => table.classList.remove('margin-top'), 2000);
-      if (table.children[0] === str) clearTimeout(timeout);
+      tooltip.classList.add('hidden');
+      copyContact.children[0].style.opacity = '0.7';
     });
     cell.append(copyContact);
   }

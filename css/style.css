@@ -42,6 +42,7 @@ body {
   background-color: #F5F5F5;
   min-width: 320px;
   overflow: auto;
+  position: relative;
 }
 
 .container {
@@ -444,8 +445,6 @@ body {
   position: absolute;
   min-width: 134px;
   height: 37px;
-  left: -59px;
-  top: -50px;
   color: #FFFFFF;
   font-size: 11px;
   background-color: #333333;
@@ -457,7 +456,7 @@ body {
   white-space: nowrap;
   opacity: 1;
   visibility: visible;
-  transition: all .3s .5s;
+  transition: opacity .2s, visibility .2s .5s;
 }
 
 .ref_contact_data:before {
