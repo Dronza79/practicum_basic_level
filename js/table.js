@@ -16,7 +16,7 @@ export {generateStringClientData}
 //   }]
 // }
 
-// Функция генерации данных в ячейках , связаных с датами
+// Функция генерации данных в ячейках, связанных с датами
 function createCellTableDate(dateString) {
   const cell = document.createElement('td');
   const date = document.createElement('span');
@@ -49,7 +49,7 @@ function getReplacedValue(stringContact) {
     ['E-почта', 'email'], ['ВК', 'vk'],
     ['ТГ', 'tg']].find((el) => el.includes(stringContact));
   if (result) result.splice(result.indexOf(stringContact), 1);
-  return result ? String(result): 'notype';
+  return result ? String(result): 'no-type';
 }
 
 // Функция генерации ячейки с контактами клиента
