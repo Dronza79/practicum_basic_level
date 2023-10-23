@@ -65,8 +65,8 @@
 		// Обработка нажатия кнопки "Добавить клиента"
 		html.addBtn.addEventListener('click', async (event) => {
 			event.preventDefault();
-			const {createModalNewClient} = await import('./modal.js');
-			createModalNewClient(); // Создание нового клиента в модальном окне
+			const {createModalClient} = await import('./modal.js');
+			createModalClient(); // Создание нового клиента в модальном окне
 		});
 	});
 })();
