@@ -318,6 +318,10 @@ body {
   z-index: 10;
 }
 
+.margin-top {
+  margin-top: 15px;
+}
+
 .group-input {
   height: 37px;
   width: 390px;
@@ -327,6 +331,10 @@ body {
   color: #333333;
   border: 1px solid #C8C5D1;
   display: flex;
+}
+
+.margin-0 {
+  margin: 0;
 }
 
 .choice-input-contact {
@@ -476,4 +484,9 @@ body {
 
 .string_data:hover {
   background-color: rgba(207, 207, 211, 0.57);
+}
+
+.marked_for_delete {
+  outline: 3px solid rgba(188, 96, 96, 0.45);
+  background: repeating-linear-gradient(135deg,  rgba(188, 96, 96, 0) 0px, rgba(188, 96, 96, 0) 20px, rgba(188, 96, 96, 0.7) 20px, rgba(188, 96, 96, 0.7) 21px)
 }
