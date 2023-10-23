@@ -1,4 +1,4 @@
-const {deleteClientToServer} = await import("./core.js");
+const {deleteClientToServer, getClientData} = await import("./core.js");
 
 export {generateStringClientData}
 
@@ -142,7 +142,14 @@ function generateStringClientData(clientData) {
   
   btnDelete.addEventListener('click', () => {
     deleteClientToServer(clientData.id).then(r => r);
+    stringTable.classList.add('marked_for_delete');
   });
+  btnEdit. addEventListener('click', () => {
+    getClientData(clientData.id).then(r => r);
+  });
+  // stringTable.addEventListener("click", (event) => {
+  //   if (event.target !== btnEdit && event.target !== btnDelete) console.log(event.target);
+  // });
   return stringTable;
   }
   
