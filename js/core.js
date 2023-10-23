@@ -1,8 +1,10 @@
-export {parseFormData, createBodyTable, deleteClientToServer};
+import {createModalClient} from "./modal.js";
+
+export {parseFormData, createBodyTable, deleteClientToServer, getClientData};
 
 const SERVER = 'http://localhost:3000/api/clients';
 
-// Функция составления клиента из формы и отправки его на сервер
+// Функция составления клиента из формы
 async function parseFormData(form) {
 	let data = new FormData(form);
 	const person = {};
@@ -18,7 +20,7 @@ async function parseFormData(form) {
 		contacts.push(obj);
 	}
 	person.contacts = contacts;
-	
+
 	// console.log('person=', person);
 	let response = await fetch(SERVER, {
 		method: 'POST',
@@ -96,5 +98,11 @@ async function deleteClientToServer(IdClient) {
 		}
 		// console.log(response.ok);
 	});
+}
+
+async function getClientData(IdClient) {
+	let response = await fetch(SERVER + `/${IdClient}`);
+	let dataClient = await response.json();
+	createModalClient(dataClient);
 }
 
