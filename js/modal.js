@@ -1,4 +1,4 @@
-export {createModalConfirm, createModalNewClient, removeModalVisible}
+export {createModalConfirm, createModalClient, removeModalVisible}
 
 // Функция скрытия модального окна
 function removeModalVisible(windowModal, modalBackGround) {
@@ -35,7 +35,11 @@ function createModalWindowTemplate() {
 	function funRMV(event) {
 		event.preventDefault();
 		// console.log(event.target);
-		if (event.target === this) removeModalVisible(winTemplate, bgM);
+		if (event.target === this) {
+			let temp = document.querySelector('.marked_for_delete');
+			if (temp) temp.classList.remove('marked_for_delete');
+			removeModalVisible(winTemplate, bgM);
+		}
 	}
 	
 	btnCancel.addEventListener('click', funRMV);
@@ -128,15 +132,19 @@ function addMaskPairInput(groupElem) {
 }
 
 // Функция закрытия ненужного типа контакта
-function addEventCloseContact(groupElement) {
+function addEventCloseContact(groupElement, btnAddGE) {
 	const button = groupElement.querySelector('button');
 	button.addEventListener('click', () => {
-		groupElement.remove();
+		groupElement.classList.remove('margin-0');
+		let count = groupElement.parentNode.getElementsByClassName('group-input').length;
+		groupElement.replaceWith(btnAddGE);
+		if (!count) groupElement.parentNode.classList.remove('padding-divWrapper');
+
 	})
 }
 
 // Создание секции добавления контактов
-function createContactData() {
+function createContactData(client) {
 	const divWrapper = document.createElement('div');
 	const addButtonContact = document.createElement('button');
 	const plusImg = document.createElement('img');
@@ -151,7 +159,7 @@ function createContactData() {
 	for (let val of listContact) {
 		let option = document.createElement('option');
 		option.value = val[1];
-		// if (val === 'Email') option.setAttribute('selected', 'true');
+		// if (val === 'email') option.setAttribute('selected', 'true');
 		option.textContent = val[0];
 		choices.append(option);
 	}
@@ -164,11 +172,10 @@ function createContactData() {
 	plusImg.src = 'img/add_circle_outline.svg';
 	addButtonContact.textContent = 'Добавить контакт';
 	inputContact.placeholder = 'Введите данные контакта';
-	// inputContact.required = true;
-	
+
 	addButtonContact.prepend(plusImg);
 	inputGroupWrapper.append(choices, inputContact, btnCloseContact);
-	divWrapper.append(addButtonContact);
+	if (!client || client.contacts.length < 10) divWrapper.append(addButtonContact);
 	
 	choices.className = 'choice-input-contact'
 	inputContact.classList.add('input-contact');
@@ -176,22 +183,41 @@ function createContactData() {
 	addButtonContact.className = 'btn_add_contact';
 	inputGroupWrapper.className = 'group-input';
 	btnCloseContact.className = 'btn_close_contact';
+
+	if (client) {
+		let fragment = new DocumentFragment();
+		for (let contact of client.contacts) {
+			let copyIGW = inputGroupWrapper.cloneNode(true);
+			let option = Array.from(copyIGW.children[0].children).find((el) => el.value ? el.value === contact.type : false);
+			console.log('option=', option, 'contact=', contact);
+			option.setAttribute('selected', 'true')
+			copyIGW.children[1].value = contact.value;
+			copyIGW.children[1].classList.add('black');
+			addMaskPairInput(copyIGW);
+			addEventCloseContact(copyIGW);
+			fragment.append(copyIGW);
+		}
+		divWrapper.classList.add('padding-divWrapper');
+		divWrapper.prepend(fragment);
+	}
 	
 	addButtonContact.addEventListener('click', (event) => {
 		event.preventDefault();
+		// addButtonContact.classList.add('margin-top');
 		divWrapper.classList.add('padding-divWrapper');
 		let collection = divWrapper.getElementsByClassName('group-input');
 		if (collection && collection.length < 9) {
 			let copyIGW = inputGroupWrapper.cloneNode(true);
 			makeTextBlack(copyIGW.children[1]);
 			addMaskPairInput(copyIGW);
-			addEventCloseContact(copyIGW);
+			addEventCloseContact(copyIGW, addButtonContact);
 			addButtonContact.before(copyIGW);
 		} else {
 			makeTextBlack(inputGroupWrapper.children[1]);
 			addButtonContact.before(inputGroupWrapper);
+			inputGroupWrapper.classList.add('margin-0');
 			addMaskPairInput(inputGroupWrapper);
-			addEventCloseContact(inputGroupWrapper);
+			addEventCloseContact(inputGroupWrapper, addButtonContact);
 			addButtonContact.remove();
 		}
 	});
@@ -215,11 +241,60 @@ function displayListErrors(response, mainBtn) {
 }
 
 // Создание модального окна нового клиента
-function createModalNewClient() {
+// function createModalClient() {
+// 	const modal = createModalWindowTemplate();
+// 	const sectionContact = createContactData();
+// 	const form = document.createElement('form');
+// 	const btnWaiting = document.createElement('img');
+// 	const username = [
+// 		{type: 'surname', val: 'Фамилия*'},
+// 		{type: 'name', val: 'Имя*'},
+// 		{type: 'lastName', val: 'Отчество'}
+// 	];
+// 	for (let obj of username) {
+// 		let label = document.createElement('label');
+// 		let input = document.createElement('input');
+// 		input.placeholder = obj.val;
+// 		// input.required = obj.type !== 'lastName';
+// 		input.id = obj.type;
+// 		input.name = obj.type;
+// 		label.htmlFor = obj.type;
+// 		input.className = 'input-form';
+// 		label.className = 'label-input';
+// 		form.className = 'form';
+// 		form.append(label, input);
+// 		makeTextBlack(input);
+// 	}
+// 	btnWaiting.src = 'img/waiting_sm.svg';
+// 	btnWaiting.className = 'await-animation';
+//
+// 	modal.winTemplate.classList.add('modal-client');
+// 	modal.title.classList.add('title-client');
+// 	modal.btnMain.textContent = 'Сохранить';
+// 	modal.title.textContent = 'Новый клиент';
+// 	form.append(sectionContact.divWrapper, modal.btnMain);
+// 	modal.title.after(form);
+//
+// 	modal.btnMain.addEventListener('click', async (event) => {
+// 		event.preventDefault();
+// 		modal.btnMain.prepend(btnWaiting);
+// 		const {parseFormData} = await import('./core.js');
+// 		let result = await parseFormData(form);
+// 		if (result.ok) {
+// 			btnWaiting.remove();
+// 			removeModalVisible(modal.winTemplate, modal.bgM);
+// 		} else {
+// 			displayListErrors(result, modal.btnMain);
+// 			btnWaiting.remove();
+// 		}
+// 	});
+// }
+function createModalClient(dataClient) {
 	const modal = createModalWindowTemplate();
-	const sectionContact = createContactData();
+	const sectionContact = createContactData(dataClient);
 	const form = document.createElement('form');
 	const btnWaiting = document.createElement('img');
+	const clientID = document.createElement('span');
 	const username = [
 		{type: 'surname', val: 'Фамилия*'},
 		{type: 'name', val: 'Имя*'},
@@ -229,31 +304,38 @@ function createModalNewClient() {
 		let label = document.createElement('label');
 		let input = document.createElement('input');
 		input.placeholder = obj.val;
-		// input.required = obj.type !== 'lastName';
 		input.id = obj.type;
 		input.name = obj.type;
+		if (dataClient) {
+			input.value = dataClient[obj.type] ? dataClient[obj.type] : '';
+			label.textContent = obj.val;
+			input.classList.add('black');
+		}
 		label.htmlFor = obj.type;
-		input.className = 'input-form';
+		input.classList.add('input-form');
 		label.className = 'label-input';
+		clientID.className = 'client_id';
 		form.className = 'form';
 		form.append(label, input);
 		makeTextBlack(input);
 	}
+	if (dataClient) clientID.textContent = dataClient.id;
 	btnWaiting.src = 'img/waiting_sm.svg';
 	btnWaiting.className = 'await-animation';
-	
+
 	modal.winTemplate.classList.add('modal-client');
 	modal.title.classList.add('title-client');
 	modal.btnMain.textContent = 'Сохранить';
-	modal.title.textContent = 'Новый клиент';
+	modal.title.textContent = dataClient ? 'Клиент № ' : 'Новый клиент';
 	form.append(sectionContact.divWrapper, modal.btnMain);
+	modal.title.append(clientID);
 	modal.title.after(form);
-	
+
 	modal.btnMain.addEventListener('click', async (event) => {
 		event.preventDefault();
 		modal.btnMain.prepend(btnWaiting);
 		const {parseFormData} = await import('./core.js');
-		let result = await parseFormData(form);
+		let result = await parseFormData(form, id=clientID);
 		if (result.ok) {
 			btnWaiting.remove();
 			removeModalVisible(modal.winTemplate, modal.bgM);
