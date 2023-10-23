@@ -2,20 +2,6 @@ const {deleteClientToServer, getClientData} = await import("./core.js");
 
 export {generateStringClientData}
 
-// {
-//   id: '1234567890',
-//   createdAt: '2021-02-03T13:07:29.554Z',
-//   updatedAt: '2021-02-03T13:07:29.554Z',
-//   name: 'Василий',
-//   surname: 'Пупкин',
-//   lastName: 'Васильевич',
-//   contacts: [
-//   {
-//     type: 'тел.',
-//     value: '+71234567890'
-//   }]
-// }
-
 // Функция генерации данных в ячейках, связанных с датами
 function createCellTableDate(dateString) {
   const cell = document.createElement('td');

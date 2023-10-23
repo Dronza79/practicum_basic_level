@@ -5,13 +5,14 @@ export {parseFormData, createBodyTable, deleteClientToServer, getClientData};
 const SERVER = 'http://localhost:3000/api/clients';
 
 // Функция составления клиента из формы
-async function parseFormData(form) {
+async function parseFormData(form, clientID) {
 	let data = new FormData(form);
 	const person = {};
 	const contacts = [];
 	const contType = data.getAll('type');
 	const contVal = data.getAll('value');
-	
+	console.log('contType=', contType);
+	console.log('contVal=', contVal);
 	person.surname = data.get('surname');
 	person.name = data.get('name');
 	person.lastName = data.get('lastName');
@@ -20,21 +21,31 @@ async function parseFormData(form) {
 		contacts.push(obj);
 	}
 	person.contacts = contacts;
-
-	// console.log('person=', person);
-	let response = await fetch(SERVER, {
-		method: 'POST',
-		body: JSON.stringify(person),
-		headers: {'Content-Type': 'application/json; charset=utf-8'}
-	});
-	console.log(response.ok);
-	if (response.ok) await createBodyTable()
-	console.log(response.status);
-	let errors = await response.json()
-	return {ok: response.ok, errors};
+	if (clientID) person.id = clientID;
+	console.log(person);
+	if (!clientID) {
+		let response = await fetch(SERVER, {
+			method: 'POST',
+			body: JSON.stringify(person),
+			headers: {'Content-Type': 'application/json; charset=utf-8'}
+		});
+		if (response.ok) await createBodyTable()
+		
+		let errors = await response.json()
+		return {ok: response.ok, errors};
+	} else {
+		let response = await fetch(SERVER + `/${clientID}`, {
+			method: 'PATCH',
+			body: JSON.stringify(person),
+			headers: {'Content-Type': 'application/json; charset=utf-8'}
+		});
+		if (response.ok) await createBodyTable()
+		let errors = await response.json()
+		return {ok: response.ok, errors};
+	}
 }
 
-// Функция провередения сортировки полученного списка клиентов
+// Функция проведения сортировки полученного списка клиентов
 function getSortedList(listClients, typeSorted) {
 	let arg = typeSorted.split('_');
 	if (arg[0] === 'username') {
@@ -96,7 +107,6 @@ async function deleteClientToServer(IdClient) {
 			removeModalVisible(confirmDelete.parentNode, confirmDelete.parentNode.parentNode);
 			await createBodyTable();
 		}
-		// console.log(response.ok);
 	});
 }
 

@@ -14,7 +14,6 @@ function createModalWindowTemplate() {
 	const btnMain = document.createElement('button');
 	const btnCancel = document.createElement('button');
 	const title = document.createElement('h3');
-	// const img = document.createElement('img');
 	const bgM = document.getElementById('bgModal');
 
 	btnClose.src = 'img/close.svg';
@@ -34,7 +33,6 @@ function createModalWindowTemplate() {
 	
 	function funRMV(event) {
 		event.preventDefault();
-		// console.log(event.target);
 		if (event.target === this) {
 			let temp = document.querySelector('.marked_for_delete');
 			if (temp) temp.classList.remove('marked_for_delete');
@@ -81,7 +79,6 @@ function createTelephoneMask(event) {
 	const inputElement = event.target;
 	const value = inputElement.value.replace(/\D/g, '');
 	if (value.length === 0) {
-		// console.log('length=', value.length, '(value.length <= 1):', value);
 		inputElement.value = '';
 	} else if (value.length <= 2) {
 		inputElement.value = `+7 (${value}`;
@@ -159,7 +156,6 @@ function createContactData(client) {
 	for (let val of listContact) {
 		let option = document.createElement('option');
 		option.value = val[1];
-		// if (val === 'email') option.setAttribute('selected', 'true');
 		option.textContent = val[0];
 		choices.append(option);
 	}
@@ -181,29 +177,31 @@ function createContactData(client) {
 	inputContact.classList.add('input-contact');
 	divWrapper.className = 'section_add_contact';
 	addButtonContact.className = 'btn_add_contact';
+	addButtonContact.type = 'button';
 	inputGroupWrapper.className = 'group-input';
 	btnCloseContact.className = 'btn_close_contact';
+	btnCloseContact.type = 'button';
 
 	if (client) {
 		let fragment = new DocumentFragment();
 		for (let contact of client.contacts) {
 			let copyIGW = inputGroupWrapper.cloneNode(true);
 			let option = Array.from(copyIGW.children[0].children).find((el) => el.value ? el.value === contact.type : false);
-			console.log('option=', option, 'contact=', contact);
-			option.setAttribute('selected', 'true')
+			addMaskPairInput(copyIGW);
+			option.setAttribute('selected', 'true');
+			copyIGW.children[1].disabled = false;
 			copyIGW.children[1].value = contact.value;
 			copyIGW.children[1].classList.add('black');
-			addMaskPairInput(copyIGW);
-			addEventCloseContact(copyIGW);
+			addEventCloseContact(copyIGW, addButtonContact);
 			fragment.append(copyIGW);
 		}
 		divWrapper.classList.add('padding-divWrapper');
 		divWrapper.prepend(fragment);
+		if (client.contacts.length === 10) divWrapper.children[9].classList.add('margin-0');
 	}
 	
 	addButtonContact.addEventListener('click', (event) => {
 		event.preventDefault();
-		// addButtonContact.classList.add('margin-top');
 		divWrapper.classList.add('padding-divWrapper');
 		let collection = divWrapper.getElementsByClassName('group-input');
 		if (collection && collection.length < 9) {
@@ -241,54 +239,6 @@ function displayListErrors(response, mainBtn) {
 }
 
 // Создание модального окна нового клиента
-// function createModalClient() {
-// 	const modal = createModalWindowTemplate();
-// 	const sectionContact = createContactData();
-// 	const form = document.createElement('form');
-// 	const btnWaiting = document.createElement('img');
-// 	const username = [
-// 		{type: 'surname', val: 'Фамилия*'},
-// 		{type: 'name', val: 'Имя*'},
-// 		{type: 'lastName', val: 'Отчество'}
-// 	];
-// 	for (let obj of username) {
-// 		let label = document.createElement('label');
-// 		let input = document.createElement('input');
-// 		input.placeholder = obj.val;
-// 		// input.required = obj.type !== 'lastName';
-// 		input.id = obj.type;
-// 		input.name = obj.type;
-// 		label.htmlFor = obj.type;
-// 		input.className = 'input-form';
-// 		label.className = 'label-input';
-// 		form.className = 'form';
-// 		form.append(label, input);
-// 		makeTextBlack(input);
-// 	}
-// 	btnWaiting.src = 'img/waiting_sm.svg';
-// 	btnWaiting.className = 'await-animation';
-//
-// 	modal.winTemplate.classList.add('modal-client');
-// 	modal.title.classList.add('title-client');
-// 	modal.btnMain.textContent = 'Сохранить';
-// 	modal.title.textContent = 'Новый клиент';
-// 	form.append(sectionContact.divWrapper, modal.btnMain);
-// 	modal.title.after(form);
-//
-// 	modal.btnMain.addEventListener('click', async (event) => {
-// 		event.preventDefault();
-// 		modal.btnMain.prepend(btnWaiting);
-// 		const {parseFormData} = await import('./core.js');
-// 		let result = await parseFormData(form);
-// 		if (result.ok) {
-// 			btnWaiting.remove();
-// 			removeModalVisible(modal.winTemplate, modal.bgM);
-// 		} else {
-// 			displayListErrors(result, modal.btnMain);
-// 			btnWaiting.remove();
-// 		}
-// 	});
-// }
 function createModalClient(dataClient) {
 	const modal = createModalWindowTemplate();
 	const sectionContact = createContactData(dataClient);
@@ -313,20 +263,21 @@ function createModalClient(dataClient) {
 		}
 		label.htmlFor = obj.type;
 		input.classList.add('input-form');
-		label.className = 'label-input';
+		if (dataClient) label.className = 'label-input';
 		clientID.className = 'client_id';
 		form.className = 'form';
 		form.append(label, input);
 		makeTextBlack(input);
 	}
-	if (dataClient) clientID.textContent = dataClient.id;
+	if (dataClient) clientID.textContent = 'ID:' + dataClient.id;
 	btnWaiting.src = 'img/waiting_sm.svg';
 	btnWaiting.className = 'await-animation';
 
 	modal.winTemplate.classList.add('modal-client');
 	modal.title.classList.add('title-client');
+	if (dataClient) modal.title.classList.add('flex-start');
 	modal.btnMain.textContent = 'Сохранить';
-	modal.title.textContent = dataClient ? 'Клиент № ' : 'Новый клиент';
+	modal.title.textContent = dataClient ? 'Изменить данные ' : 'Новый клиент';
 	form.append(sectionContact.divWrapper, modal.btnMain);
 	modal.title.append(clientID);
 	modal.title.after(form);
@@ -335,7 +286,9 @@ function createModalClient(dataClient) {
 		event.preventDefault();
 		modal.btnMain.prepend(btnWaiting);
 		const {parseFormData} = await import('./core.js');
-		let result = await parseFormData(form, id=clientID);
+		let id = dataClient ? dataClient.id : null;
+		console.log('form=', form)
+		let result = await parseFormData(form, id);
 		if (result.ok) {
 			btnWaiting.remove();
 			removeModalVisible(modal.winTemplate, modal.bgM);
