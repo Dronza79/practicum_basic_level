@@ -96,7 +96,7 @@ function createTelephoneMask(event) {
 // Функция маски вконтакте
 function createVkMask(event) {
 	const inputElement = event.target;
-	const value = inputElement.value.replace(/vk\.com\/|[.,*+?^${}()]/g, '');
+	const value = inputElement.value.replace(/^.+\/|[.,*+?^${}()]/g, '');
 	if (value.length === 0) {
 		inputElement.value = '';
 	} else	inputElement.value = `vk.com/${value}`;
@@ -105,7 +105,7 @@ function createVkMask(event) {
 // Функция маски вконтакте
 function createTgMask(event) {
 	const inputElement = event.target;
-	const value = inputElement.value.replace(/t\.me\/|[.,*+?^${}()]/g, '');
+	const value = inputElement.value.replace(/^.+\/|[.,*+?^${}()]/g, '');
 	if (value.length === 0) {
 		inputElement.value = '';
 	} else	inputElement.value = `t.me/${value}`;
@@ -123,17 +123,12 @@ function addMaskPairInput(groupElem) {
 		inputElem.disabled = false;
 		if (['phone', 'mobile'].includes(selectedOption)) {
 			inputElem.type = 'tel';
-			// inputElem.title = 'Телефон должен быть в 10-ти значном формате';
-			// inputElem.removeAttribute('pattern');
 			inputElem.addEventListener('input', createTelephoneMask);
 			inputElem.removeEventListener('input', createVkMask);
 			inputElem.removeEventListener('input', createTgMask);
 		} else if (selectedOption === 'email') {
 			inputElem.removeEventListener('input', createTelephoneMask);
-			// inputElem.disabled = false;
 			inputElem.type = 'email';
-			// inputElem.removeAttribute('title');
-			// inputElem.removeAttribute('pattern');
 			inputElem.removeEventListener('input', createVkMask);
 			inputElem.removeEventListener('input', createTgMask);
 		} else if (selectedOption === 'vk') {
@@ -141,17 +136,11 @@ function addMaskPairInput(groupElem) {
 			inputElem.removeEventListener('input', createTgMask);
 			inputElem.addEventListener('input', createVkMask);
 			inputElem.removeAttribute('type');
-			// inputElem.disabled = false;
-			// inputElem.pattern = '^(vk\.com)\/[a-z0-9]+';
-			// inputElem.title = 'Должно быть в формате vk.com/XXXXXX'
 		} else if (selectedOption === 'tg') {
 			inputElem.removeEventListener('input', createTelephoneMask);
 			inputElem.removeEventListener('input', createVkMask);
 			inputElem.addEventListener('input', createTgMask);
 			inputElem.removeAttribute('type');
-			// inputElem.disabled = false;
-			// inputElem.pattern = '^(t\.me)\/[a-z0-9]+';
-			// inputElem.title = 'Должно быть в формате t.me/XXXXXX'
 		}
 	});
 }
@@ -222,7 +211,6 @@ function createContactData(client) {
 
 	if (client) {
 		let fragment = new DocumentFragment();
-		console.log('client.contacts.length=', client.contacts.length);
 		if (client.contacts.length) divWrapper.classList.add('padding-divWrapper');
 		for (let contact of client.contacts) {
 			let copyIGW = inputGroupWrapper.cloneNode(true);
