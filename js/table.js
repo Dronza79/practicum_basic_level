@@ -1,4 +1,5 @@
 const {deleteClientToServer, getClientData} = await import("./core.js");
+import { icons } from "./icons.js"
 
 export {generateStringClientData}
 
@@ -31,9 +32,9 @@ function createCellTableDate(dateString) {
 // Функция предоставления соответствия типа контакта
 function getReplacedValue(stringContact) {
   const result = [
-    ['тел.', 'phone'], ['моб.', 'mobile'],
-    ['E-почта', 'email'], ['ВК', 'vk'],
-    ['ТГ', 'tg']].find((el) => el.includes(stringContact));
+    ['телефон.', 'phone'], ['мобильный', 'mobile'],
+    ['электронная почта', 'email'], ['Вконтакте', 'vk'],
+    ['Телеграм', 'tg']].find((el) => el.includes(stringContact));
   if (result) result.splice(result.indexOf(stringContact), 1);
   return result ? String(result): 'no-type';
 }
@@ -42,49 +43,38 @@ function getReplacedValue(stringContact) {
 function createCellTableContacts(contacts) {
   const cell = document.createElement('td');
   const contact = document.createElement('div');
-  const icon = document.createElement('img');
   const tooltip = document.querySelector('.ref_contact_data');
   const tooltipType = document.createElement('span');
   const tooltipValue = document.createElement('span');
-  
-  contact.className = 'contact_data';
+
   tooltip.classList.add('ref_contact_data', 'hidden');
   tooltip.innerHTML = ':&nbsp;';
   tooltipType.style.color = '#FFFFFF';
   tooltipValue.style.color = '#B89EFF';
-  icon.style.opacity = '0.7';
   tooltip.prepend(tooltipType);
   tooltip.append(tooltipValue);
-  contact.append(icon);
-  
+
   if (!contacts) return cell;
   for (let dataCont of contacts) {
-    let copyContact = contact.cloneNode(true);
-    copyContact.children[0].style.width = '16px';
-    ['phone', 'mobile'].includes(dataCont.type)
-      ? copyContact.children[0].src = 'img/phone.png'
-      : ['email'].includes(dataCont.type)
-        ? copyContact.children[0].src = 'img/mail.svg'
-        : ['vk'].includes(dataCont.type)
-          ? copyContact.children[0].src = 'img/vk.svg'
-          : ['tg'].includes(dataCont.type)
-            ? copyContact.children[0].src = 'img/telegram.svg'
-            : copyContact.children[0].src = 'img/other.svg';
-    copyContact.addEventListener('mouseenter', () => {
+    const newContact = document.createElement("div");
+    newContact.className = 'contact_data';
+    newContact.innerHTML = icons[dataCont.type];
+    newContact.style.opacity = '0.7';
+    newContact.addEventListener('mouseenter', () => {
       tooltip.children[0].textContent = getReplacedValue(dataCont.type);
       tooltip.children[1].textContent = dataCont.value;
-      let loc = copyContact.getBoundingClientRect();
+      let loc = newContact.getBoundingClientRect();
       let tooltipDim = tooltip.getBoundingClientRect();
       tooltip.style.left = `${window.scrollX + loc.left - tooltipDim.width / 2 + loc.width / 2}px`;
       tooltip.style.top = `${window.scrollY + loc.top - tooltipDim.height - 9}px`;
       tooltip.classList.remove('hidden');
-      copyContact.children[0].style.opacity = '1';
+      newContact.style.opacity = '1';
     });
-    copyContact.addEventListener('mouseleave', () => {
+    newContact.addEventListener('mouseleave', () => {
       tooltip.classList.add('hidden');
-      copyContact.children[0].style.opacity = '0.7';
+      newContact.style.opacity = '0.7';
     });
-    cell.append(copyContact);
+    cell.append(newContact);
   }
   return cell;
 }
@@ -103,12 +93,8 @@ function generateStringClientData(clientData) {
 
   cellID.textContent = clientData.id;
   username.textContent = `${clientData.surname} ${clientData.name} ${clientData.lastName}`
-  btnEdit.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">\n' +
-    '<path id="Vector" d="M2 11.5V14H4.5L11.8733 6.62662L9.37333 4.12662L2 11.5ZM13.8067 4.69329C14.0667 4.43329 14.0667 4.01329 13.8067 3.75329L12.2467 2.19329C11.9867 1.93329 11.5667 1.93329 11.3067 2.19329L10.0867 3.41329L12.5867 5.91329L13.8067 4.69329Z" fill="#9873FF"/>\n' +
-    '</svg>\n';
-  btnDelete.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">\n' +
-    '<path id="Vector" d="M8 2C4.682 2 2 4.682 2 8C2 11.318 4.682 14 8 14C11.318 14 14 11.318 14 8C14 4.682 11.318 2 8 2ZM8 12.8C5.354 12.8 3.2 10.646 3.2 8C3.2 5.354 5.354 3.2 8 3.2C10.646 3.2 12.8 5.354 12.8 8C12.8 10.646 10.646 12.8 8 12.8ZM10.154 5L8 7.154L5.846 5L5 5.846L7.154 8L5 10.154L5.846 11L8 8.846L10.154 11L11 10.154L8.846 8L11 5.846L10.154 5Z" fill="red"/>\n' +
-    '</svg>\n';
+  btnEdit.innerHTML = icons.edit;
+  btnDelete.innerHTML = icons.delete;
   btnEdit.append('Редактировать');
   btnDelete.append('Удалить');
 
