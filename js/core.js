@@ -11,8 +11,8 @@ async function parseFormData(form, clientID) {
 	const contacts = [];
 	const contType = data.getAll('type');
 	const contVal = data.getAll('value');
-	console.log('contType=', contType);
-	console.log('contVal=', contVal);
+	// console.log('contType=', contType);
+	// console.log('contVal=', contVal);
 	person.surname = data.get('surname');
 	person.name = data.get('name');
 	person.lastName = data.get('lastName');
@@ -22,7 +22,7 @@ async function parseFormData(form, clientID) {
 	}
 	person.contacts = contacts;
 	if (clientID) person.id = clientID;
-	console.log(person);
+	// console.log(person);
 	if (!clientID) {
 		let response = await fetch(SERVER, {
 			method: 'POST',
