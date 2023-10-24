@@ -93,6 +93,24 @@ function createTelephoneMask(event) {
 	}
 }
 
+// Функция маски вконтакте
+function createVkMask(event) {
+	const inputElement = event.target;
+	const value = inputElement.value.replace(/vk\.com\/|[.,*+?^${}()]/g, '');
+	if (value.length === 0) {
+		inputElement.value = '';
+	} else	inputElement.value = `vk.com/${value}`;
+}
+
+// Функция маски вконтакте
+function createTgMask(event) {
+	const inputElement = event.target;
+	const value = inputElement.value.replace(/t\.me\/|[.,*+?^${}()]/g, '');
+	if (value.length === 0) {
+		inputElement.value = '';
+	} else	inputElement.value = `t.me/${value}`;
+}
+
 // Функция связи элемента выбора и поля ввода. Добавление базовой валидации поля ввода
 function addMaskPairInput(groupElem) {
 	const selectElem = groupElem.querySelector('select');
@@ -102,28 +120,38 @@ function addMaskPairInput(groupElem) {
 	
 	selectElem.addEventListener('change', () => {
 		const selectedOption = selectElem.value;
+		inputElem.disabled = false;
 		if (['phone', 'mobile'].includes(selectedOption)) {
 			inputElem.type = 'tel';
-			inputElem.disabled = false;
-			inputElem.title = 'Телефон должен быть в 10-ти значном формате';
-			inputElem.removeAttribute('pattern');
+			// inputElem.title = 'Телефон должен быть в 10-ти значном формате';
+			// inputElem.removeAttribute('pattern');
 			inputElem.addEventListener('input', createTelephoneMask);
+			inputElem.removeEventListener('input', createVkMask);
+			inputElem.removeEventListener('input', createTgMask);
 		} else if (selectedOption === 'email') {
 			inputElem.removeEventListener('input', createTelephoneMask);
-			inputElem.disabled = false;
+			// inputElem.disabled = false;
 			inputElem.type = 'email';
-			inputElem.removeAttribute('title');
-			inputElem.removeAttribute('pattern');
+			// inputElem.removeAttribute('title');
+			// inputElem.removeAttribute('pattern');
+			inputElem.removeEventListener('input', createVkMask);
+			inputElem.removeEventListener('input', createTgMask);
 		} else if (selectedOption === 'vk') {
 			inputElem.removeEventListener('input', createTelephoneMask);
-			inputElem.disabled = false;
-			inputElem.pattern = '^(vk\.com)\/[a-z0-9]+';
-			inputElem.title = 'Должно быть в формате vk.com/XXXXXX'
+			inputElem.removeEventListener('input', createTgMask);
+			inputElem.addEventListener('input', createVkMask);
+			inputElem.removeAttribute('type');
+			// inputElem.disabled = false;
+			// inputElem.pattern = '^(vk\.com)\/[a-z0-9]+';
+			// inputElem.title = 'Должно быть в формате vk.com/XXXXXX'
 		} else if (selectedOption === 'tg') {
 			inputElem.removeEventListener('input', createTelephoneMask);
-			inputElem.disabled = false;
-			inputElem.pattern = '^(t\.me)\/[a-z0-9]+';
-			inputElem.title = 'Должно быть в формате t.me/XXXXXX'
+			inputElem.removeEventListener('input', createVkMask);
+			inputElem.addEventListener('input', createTgMask);
+			inputElem.removeAttribute('type');
+			// inputElem.disabled = false;
+			// inputElem.pattern = '^(t\.me)\/[a-z0-9]+';
+			// inputElem.title = 'Должно быть в формате t.me/XXXXXX'
 		}
 	});
 }
@@ -185,7 +213,7 @@ function createContactData(client) {
 	
 	choices.className = 'choice-input-contact'
 	inputContact.classList.add('input-contact');
-	divWrapper.className = 'section_add_contact';
+	divWrapper.classList.add('section_add_contact');
 	addButtonContact.className = 'btn_add_contact';
 	addButtonContact.type = 'button';
 	inputGroupWrapper.className = 'group-input';
@@ -194,6 +222,8 @@ function createContactData(client) {
 
 	if (client) {
 		let fragment = new DocumentFragment();
+		console.log('client.contacts.length=', client.contacts.length);
+		if (client.contacts.length) divWrapper.classList.add('padding-divWrapper');
 		for (let contact of client.contacts) {
 			let copyIGW = inputGroupWrapper.cloneNode(true);
 			let option = Array.from(copyIGW.children[0].children).find((el) => el.value ? el.value === contact.type : false);
@@ -205,7 +235,6 @@ function createContactData(client) {
 			fragment.append(copyIGW);
 			addEventCloseContact(copyIGW, addButtonContact);
 		}
-		if (client.contacts >= 1) divWrapper.classList.add('padding-divWrapper');
 		divWrapper.prepend(fragment);
 		if (client.contacts.length === 10) divWrapper.children[9].classList.add('margin-0');
 	}
