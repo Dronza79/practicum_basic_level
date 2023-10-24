@@ -69,7 +69,7 @@
 			event.preventDefault();
 			console.log(html.searchInput.value);
 			const {searchDataClientsFromServer} = await import('./core.js');
-			await searchDataClientsFromServer(html.searchInput.value);
+			searchDataClientsFromServer(html.searchInput.value);
 		});
 		
 		// Обработка нажатия кнопки "Добавить клиента"

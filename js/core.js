@@ -117,11 +117,20 @@ async function getClientData(IdClient) {
 }
 
 async function searchDataClientsFromServer(searchString){
+	const htmlElement = document.getElementById('t-body');
+	let tableBody = document.createElement('table');
+	const {generateStringClientData} = await import('./table.js');
 	let response = await fetch(SERVER + `?search=${searchString}`);
-	console.log(await response.json());
-	// if (response.ok) await createBodyTable();
-	//
-	// let errors = await response.json()
-	// return {ok: response.ok, errors};
+	let result = await response.json();
+	
+	tableBody.className = 'table_clients';
+	htmlElement.innerHTML = '';
+	if (result.length) {
+		for (const client of result) {
+			let stringClient = generateStringClientData(client);
+			tableBody.append(stringClient); // Добавление строки с данными клиента
+		}
+		htmlElement.append(tableBody);
+	}
 }
 
