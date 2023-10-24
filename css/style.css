@@ -48,6 +48,7 @@ body {
 .container {
   margin: 0 auto;
   max-width: 1004px;
+  min-width: 768px;
   width: 100%;
   height: 100%;
   padding: 0 10px;
@@ -103,6 +104,7 @@ body {
 .table_update {
   width: 15%;
   cursor: pointer;
+  min-width: 120px;
 }
 
 .table_actions {
@@ -111,6 +113,7 @@ body {
 
 .table_contact {
   width: 13%;
+  min-width: 120px;
 }
 
 .table_head {
@@ -128,6 +131,7 @@ body {
   background-color: #FFFFFF;
   height: 300px;
   width: 100%;
+  min-width: 728px;
   position: relative;
   overflow: auto;
 }
@@ -412,16 +416,19 @@ body {
 
 .cell_25 {
   width: 25%;
+  min-width: 120px;
   word-break: break-word;
   padding: 1px 5px;
 }
 
 .cell_15 {
   width: 15%;
+  min-width: 120px;
 }
 
 .cell_13 {
   width: 13%;
+  min-width: 120px;
 }
 
 .table_btn {
@@ -434,6 +441,14 @@ body {
 
 .table_btn:hover {
   opacity: 1;
+}
+
+.tb_btn_wrapper {
+  display: flex;
+  column-gap: 30px;
+  row-gap: 5px;
+  justify-content: flex-start;
+  flex-wrap: wrap;
 }
 
 .contact_data {

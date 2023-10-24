@@ -88,6 +88,7 @@ function generateStringClientData(clientData) {
   const updateAt = createCellTableDate(clientData.updatedAt);
   const contacts = createCellTableContacts(clientData.contacts);
   const actions = document.createElement('td');
+  const btnWrapper = document.createElement('div');
   const btnEdit = document.createElement('button');
   const btnDelete = document.createElement('button');
 
@@ -105,11 +106,13 @@ function generateStringClientData(clientData) {
   updateAt.className = 'cell_15';
   contacts.className = 'cell_13';
   actions.className = 'cell_25';
+  btnWrapper.className = 'tb_btn_wrapper';
   btnEdit.className = 'table_btn';
   btnDelete.className = 'table_btn';
-  btnEdit.style.marginRight = '30px';
-
-  actions.append(btnEdit, btnDelete);
+  // btnEdit.style.marginRight = '30px';
+  
+  btnWrapper.append(btnEdit, btnDelete);
+  actions.append(btnWrapper);
   stringTable.append(cellID, username, createAt, updateAt, contacts, actions);
   
   btnDelete.addEventListener('click', () => {
