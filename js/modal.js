@@ -131,11 +131,21 @@ function addMaskPairInput(groupElem) {
 // Функция закрытия ненужного типа контакта
 function addEventCloseContact(groupElement, btnAddGE) {
 	const button = groupElement.querySelector('button');
+
 	button.addEventListener('click', () => {
+		const wrapper = groupElement.parentNode;
+		let count = wrapper.getElementsByClassName('group-input').length;
+		console.log('wrapper=', wrapper);
+		console.log('count=', count);
 		groupElement.classList.remove('margin-0');
-		let count = groupElement.parentNode.getElementsByClassName('group-input').length;
-		groupElement.replaceWith(btnAddGE);
-		if (!count) groupElement.parentNode.classList.remove('padding-divWrapper');
+		if (count > 9) {
+			wrapper.children[9].classList.remove('margin-0');
+			wrapper.append(btnAddGE);
+		}
+		if (count === 1) {
+			groupElement.replaceWith(btnAddGE);
+			wrapper.classList.remove('padding-divWrapper');
+		} else groupElement.remove();
 
 	})
 }
@@ -192,10 +202,10 @@ function createContactData(client) {
 			copyIGW.children[1].disabled = false;
 			copyIGW.children[1].value = contact.value;
 			copyIGW.children[1].classList.add('black');
-			addEventCloseContact(copyIGW, addButtonContact);
 			fragment.append(copyIGW);
+			addEventCloseContact(copyIGW, addButtonContact);
 		}
-		divWrapper.classList.add('padding-divWrapper');
+		if (client.contacts >= 1) divWrapper.classList.add('padding-divWrapper');
 		divWrapper.prepend(fragment);
 		if (client.contacts.length === 10) divWrapper.children[9].classList.add('margin-0');
 	}
@@ -287,7 +297,7 @@ function createModalClient(dataClient) {
 		modal.btnMain.prepend(btnWaiting);
 		const {parseFormData} = await import('./core.js');
 		let id = dataClient ? dataClient.id : null;
-		console.log('form=', form)
+		// console.log('form=', form)
 		let result = await parseFormData(form, id);
 		if (result.ok) {
 			btnWaiting.remove();
