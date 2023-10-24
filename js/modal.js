@@ -1,4 +1,6 @@
-export {createModalConfirm, createModalClient, removeModalVisible}
+import {icons} from "./icons.js";
+
+export {createModalConfirm, createModalClient, removeModalVisible, makeTextBlack}
 
 // Функция скрытия модального окна
 function removeModalVisible(windowModal, modalBackGround) {
@@ -102,7 +104,7 @@ function createVkMask(event) {
 	} else	inputElement.value = `vk.com/${value}`;
 }
 
-// Функция маски вконтакте
+// Функция маски телеграм
 function createTgMask(event) {
 	const inputElement = event.target;
 	const value = inputElement.value.replace(/^.+\/|[.,*+?^${}()]/g, '');
@@ -115,9 +117,7 @@ function createTgMask(event) {
 function addMaskPairInput(groupElem) {
 	const selectElem = groupElem.querySelector('select');
 	const inputElem = groupElem.querySelector('input');
-	
-	inputElem.disabled = true;
-	
+
 	selectElem.addEventListener('change', () => {
 		const selectedOption = selectElem.value;
 		inputElem.disabled = false;
@@ -152,8 +152,8 @@ function addEventCloseContact(groupElement, btnAddGE) {
 	button.addEventListener('click', () => {
 		const wrapper = groupElement.parentNode;
 		let count = wrapper.getElementsByClassName('group-input').length;
-		console.log('wrapper=', wrapper);
-		console.log('count=', count);
+		// console.log('wrapper=', wrapper);
+		// console.log('count=', count);
 		groupElement.classList.remove('margin-0');
 		if (count > 9) {
 			wrapper.children[9].classList.remove('margin-0');
@@ -171,7 +171,6 @@ function addEventCloseContact(groupElement, btnAddGE) {
 function createContactData(client) {
 	const divWrapper = document.createElement('div');
 	const addButtonContact = document.createElement('button');
-	const plusImg = document.createElement('img');
 	const inputGroupWrapper = document.createElement('div');
 	const choices = document.createElement('select');
 	const inputContact = document.createElement('input');
@@ -186,17 +185,14 @@ function createContactData(client) {
 		option.textContent = val[0];
 		choices.append(option);
 	}
-	// btnCloseContact.innerHTML = '<img src="../img/cancel.svg"/>';
-	btnCloseContact.innerHTML = '<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">\n' +
-		'<path d="M6 0C2.682 0 0 2.682 0 6C0 9.318 2.682 12 6 12C9.318 12 12 9.318 12 6C12 2.682 9.318 0 6 0ZM6 10.8C3.354 10.8 1.2 8.646 1.2 6C1.2 3.354 3.354 1.2 6 1.2C8.646 1.2 10.8 3.354 10.8 6C10.8 8.646 8.646 10.8 6 10.8ZM8.154 3L6 5.154L3.846 3L3 3.846L5.154 6L3 8.154L3.846 9L6 6.846L8.154 9L9 8.154L6.846 6L9 3.846L8.154 3Z" fill="currentColor"/>\n' +
-		'</svg>';
+	btnCloseContact.innerHTML = icons.close;
 	choices.name = 'type';
 	inputContact.name = 'value'
-	plusImg.src = 'img/add_circle_outline.svg';
-	addButtonContact.textContent = 'Добавить контакт';
+	addButtonContact.innerHTML = icons.addContact;
+	addButtonContact.append('Добавить контакт');
 	inputContact.placeholder = 'Введите данные контакта';
+	inputContact.disabled = true;
 
-	addButtonContact.prepend(plusImg);
 	inputGroupWrapper.append(choices, inputContact, btnCloseContact);
 	if (!client || client.contacts.length < 10) divWrapper.append(addButtonContact);
 	
@@ -215,13 +211,13 @@ function createContactData(client) {
 		for (let contact of client.contacts) {
 			let copyIGW = inputGroupWrapper.cloneNode(true);
 			let option = Array.from(copyIGW.children[0].children).find((el) => el.value ? el.value === contact.type : false);
-			addMaskPairInput(copyIGW);
 			option.setAttribute('selected', 'true');
-			copyIGW.children[1].disabled = false;
 			copyIGW.children[1].value = contact.value;
 			copyIGW.children[1].classList.add('black');
-			fragment.append(copyIGW);
+			copyIGW.children[1].disabled = false;
+			addMaskPairInput(copyIGW);
 			addEventCloseContact(copyIGW, addButtonContact);
+			fragment.append(copyIGW);
 		}
 		divWrapper.prepend(fragment);
 		if (client.contacts.length === 10) divWrapper.children[9].classList.add('margin-0');
