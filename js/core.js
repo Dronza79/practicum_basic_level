@@ -1,6 +1,6 @@
 import {createModalClient} from "./modal.js";
 
-export {parseFormData, createBodyTable, deleteClientToServer, getClientData};
+export {parseFormData, createBodyTable, deleteClientToServer, getClientData, searchDataClientsFromServer};
 
 const SERVER = 'http://localhost:3000/api/clients';
 
@@ -64,7 +64,7 @@ function getSortedList(listClients, typeSorted) {
 		});
 	} else if (arg[0] === 'id') {
 		listClients.sort((a, b) => Number(a.id) - Number(b.id));
-	} else listClients.sort((a, b) => Date.parse(a[arg]) - Date.parse(b[arg]));
+	} else listClients.sort((a, b) => Date.parse(a[arg[0]]) - Date.parse(b[arg[0]]));
 	if (arg[1] === 'up') listClients.reverse();
 	return listClients;
 }
@@ -114,5 +114,14 @@ async function getClientData(IdClient) {
 	let response = await fetch(SERVER + `/${IdClient}`);
 	let dataClient = await response.json();
 	createModalClient(dataClient);
+}
+
+async function searchDataClientsFromServer(searchString){
+	let response = await fetch(SERVER + `?search=${searchString}`);
+	console.log(await response.json());
+	// if (response.ok) await createBodyTable();
+	//
+	// let errors = await response.json()
+	// return {ok: response.ok, errors};
 }
 
