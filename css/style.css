@@ -509,3 +509,11 @@ body {
 .flex-start {
   align-self: flex-start;
 }
+
+.ellipse {
+  color: #333;
+  font-size: 8px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
