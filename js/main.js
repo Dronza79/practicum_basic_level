@@ -5,9 +5,10 @@
 		const tHead = Array.from(document.querySelectorAll('.filter'));
 		const sch = document.querySelector('.search_form');
 		const addBtn = document.getElementById('add-btn');
-		return {tHead, sch, addBtn};
+		const searchInput = document.getElementById('search');
+		return {tHead, sch, addBtn, searchInput};
 	}
-	
+
 	// Функция обработки сортировки данных
 	function addEventSortTableHead(listTableHead) {
 		for (let colum of listTableHead) {
@@ -59,8 +60,17 @@
 		const html = getHTMLElement();
 		const {createBodyTable} = await import('./core.js');
 		await createBodyTable(); // Формирование тела таблицы клиентов на основании списка
-		
-		addEventSortTableHead(html.tHead);
+		const {makeTextBlack} = await import('./modal.js');
+		makeTextBlack(html.searchInput);
+
+		addEventSortTableHead(html.tHead); // Добавление обработки сортировки списка клиентов
+
+		html.sch.addEventListener('submit', async (event) => {
+			event.preventDefault();
+			console.log(html.searchInput.value);
+			const {searchDataClientsFromServer} = await import('./core.js');
+			await searchDataClientsFromServer(html.searchInput.value);
+		});
 		
 		// Обработка нажатия кнопки "Добавить клиента"
 		html.addBtn.addEventListener('click', async (event) => {
