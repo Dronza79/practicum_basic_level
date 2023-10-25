@@ -451,19 +451,22 @@ body {
   flex-wrap: wrap;
 }
 
+.wrapper-contacts {
+  /*width: 100%;*/
+  /*height: 100px;*/
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
 .contact_data {
-  position: relative;
-  display: inline-flex;
+  display: flex;
   justify-content: center;
   align-items: center;
   height: 20px;
   width: 20px;
   margin-right: 3px;
 }
-
-/*.contact_data:nth-child(5n) {*/
-/*  margin-right: 23px;*/
-/*}*/
 
 .ref_contact_data {
   position: absolute;
@@ -525,10 +528,23 @@ body {
   align-self: flex-start;
 }
 
-.ellipse {
+.count_contact {
   color: #333;
   font-size: 8px;
-  font-style: normal;
   font-weight: 600;
-  line-height: normal;
+  background-image: url("../img/ellipse.png");
+  background-repeat: no-repeat;
+  background-size: auto;
+  background-position-x: center;
+  background-position-y: center;
+}
+
+.collection {
+  display: none;
+  /*display: inline-flex;*/
+}
+
+.sm-display {
+  display: flex;
+  /*display: none;*/
 }
