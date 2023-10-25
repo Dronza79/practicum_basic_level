@@ -42,17 +42,22 @@ function getReplacedValue(stringContact) {
 // Функция генерации ячейки с контактами клиента
 function createCellTableContacts(contacts) {
   const cell = document.createElement('td');
-  const contact = document.createElement('div');
+  const wrapperContact = document.createElement('div');
+  const count = document.createElement('div');
   const tooltip = document.querySelector('.ref_contact_data');
   const tooltipType = document.createElement('span');
   const tooltipValue = document.createElement('span');
 
+  wrapperContact.className = 'wrapper-contacts';
   tooltip.classList.add('ref_contact_data', 'hidden');
+  count.classList.add('contact_data', 'count_contact', 'sm-display');
+  count.style.cursor = 'pointer';
   tooltip.innerHTML = ':&nbsp;';
   tooltipType.style.color = '#FFFFFF';
   tooltipValue.style.color = '#B89EFF';
   tooltip.prepend(tooltipType);
   tooltip.append(tooltipValue);
+  cell.append(wrapperContact);
 
   if (!contacts) return cell;
   for (let dataCont of contacts) {
@@ -60,6 +65,7 @@ function createCellTableContacts(contacts) {
     newContact.className = 'contact_data';
     newContact.innerHTML = icons[dataCont.type];
     newContact.style.opacity = '0.7';
+
     newContact.addEventListener('mouseenter', () => {
       tooltip.children[0].textContent = getReplacedValue(dataCont.type);
       tooltip.children[1].textContent = dataCont.value;
@@ -74,8 +80,21 @@ function createCellTableContacts(contacts) {
       tooltip.classList.add('hidden');
       newContact.style.opacity = '0.7';
     });
-    cell.append(newContact);
+    wrapperContact.append(newContact);
   }
+  if (wrapperContact.children.length > 5) {
+    count.textContent = `+${wrapperContact.children.length - 4}`;
+    wrapperContact.append(count);
+    Array.from(wrapperContact.children).map((el, id) => {
+      if (id > 3) el.classList.add('collection');
+    });
+  }
+  count.addEventListener('click', () => {
+    Array.from(document.querySelectorAll('.collection')).map(el => el.classList.toggle('sm-display'));
+    setTimeout(() => {
+      Array.from(document.querySelectorAll('.collection')).map(el => el.classList.toggle('sm-display'));
+    }, 5000);
+  });
   return cell;
 }
 
@@ -109,8 +128,7 @@ function generateStringClientData(clientData) {
   btnWrapper.className = 'tb_btn_wrapper';
   btnEdit.className = 'table_btn';
   btnDelete.className = 'table_btn';
-  // btnEdit.style.marginRight = '30px';
-  
+
   btnWrapper.append(btnEdit, btnDelete);
   actions.append(btnWrapper);
   stringTable.append(cellID, username, createAt, updateAt, contacts, actions);
