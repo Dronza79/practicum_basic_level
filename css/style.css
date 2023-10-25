@@ -42,13 +42,16 @@ body {
   background-color: #F5F5F5;
   min-width: 320px;
   overflow: auto;
+  position: relative;
 }
 
 .container {
   margin: 0 auto;
-  max-width: 984px;
+  max-width: 1004px;
+  min-width: 768px;
   width: 100%;
   height: 100%;
+  padding: 0 10px;
 }
 
 .flex {
@@ -101,6 +104,7 @@ body {
 .table_update {
   width: 15%;
   cursor: pointer;
+  min-width: 120px;
 }
 
 .table_actions {
@@ -109,6 +113,7 @@ body {
 
 .table_contact {
   width: 13%;
+  min-width: 120px;
 }
 
 .table_head {
@@ -117,15 +122,16 @@ body {
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  width: 984px;
+  width: 100%;
   margin-bottom: 8px;
 }
 
 
 .tbody {
   background-color: #FFFFFF;
-  height: 300px;
+  height: 540px;
   width: 100%;
+  min-width: 728px;
   position: relative;
   overflow: auto;
 }
@@ -317,6 +323,10 @@ body {
   z-index: 10;
 }
 
+.margin-top {
+  margin-top: 15px;
+}
+
 .group-input {
   height: 37px;
   width: 390px;
@@ -326,6 +336,10 @@ body {
   color: #333333;
   border: 1px solid #C8C5D1;
   display: flex;
+}
+
+.margin-0 {
+  margin: 0;
 }
 
 .choice-input-contact {
@@ -402,16 +416,19 @@ body {
 
 .cell_25 {
   width: 25%;
+  min-width: 120px;
   word-break: break-word;
-  padding-left: 5px;
+  padding: 1px 5px;
 }
 
 .cell_15 {
   width: 15%;
+  min-width: 120px;
 }
 
 .cell_13 {
   width: 13%;
+  min-width: 120px;
 }
 
 .table_btn {
@@ -426,9 +443,24 @@ body {
   opacity: 1;
 }
 
+.tb_btn_wrapper {
+  display: flex;
+  column-gap: 30px;
+  row-gap: 5px;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.wrapper-contacts {
+  /*width: 100%;*/
+  /*height: 100px;*/
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
 .contact_data {
-  position: relative;
-  display: inline-flex;
+  display: flex;
   justify-content: center;
   align-items: center;
   height: 20px;
@@ -436,16 +468,10 @@ body {
   margin-right: 3px;
 }
 
-/*.contact_data:nth-child(5n) {*/
-/*  margin-right: 23px;*/
-/*}*/
-
 .ref_contact_data {
   position: absolute;
   min-width: 134px;
   height: 37px;
-  left: -59px;
-  top: -50px;
   color: #FFFFFF;
   font-size: 11px;
   background-color: #333333;
@@ -457,7 +483,7 @@ body {
   white-space: nowrap;
   opacity: 1;
   visibility: visible;
-  transition: all .3s .5s;
+  transition: opacity .2s, visibility .2s .5s;
 }
 
 .ref_contact_data:before {
@@ -473,4 +499,52 @@ body {
 .hidden {
   opacity: 0;
   visibility: hidden;
+}
+
+.string_data:hover {
+  background-color: rgba(207, 207, 211, 0.57);
+}
+
+.marked_for_delete {
+  outline: 3px solid rgba(188, 96, 96, 0.45);
+  background: repeating-linear-gradient(135deg,  rgba(188, 96, 96, 0) 0px, rgba(188, 96, 96, 0) 20px, rgba(188, 96, 96, 0.7) 20px, rgba(188, 96, 96, 0.7) 21px)
+}
+
+.label-input {
+  color: #B0B0B0;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.client_id {
+  color: #B0B0B0;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+}
+
+.flex-start {
+  align-self: flex-start;
+}
+
+.count_contact {
+  color: #333;
+  font-size: 8px;
+  font-weight: 600;
+  background-image: url("../img/ellipse.svg");
+  background-repeat: no-repeat;
+  background-size: auto;
+  background-position-x: center;
+  background-position-y: center;
+}
+
+.collection {
+  display: none;
+  /*display: inline-flex;*/
+}
+
+.sm-display {
+  display: flex;
+  /*display: none;*/
 }

@@ -1,4 +1,6 @@
-export {createModalConfirm, createModalNewClient, removeModalVisible}
+import {icons} from "./icons.js";
+
+export {createModalConfirm, createModalClient, removeModalVisible, makeTextBlack}
 
 // Функция скрытия модального окна
 function removeModalVisible(windowModal, modalBackGround) {
@@ -14,7 +16,6 @@ function createModalWindowTemplate() {
 	const btnMain = document.createElement('button');
 	const btnCancel = document.createElement('button');
 	const title = document.createElement('h3');
-	// const img = document.createElement('img');
 	const bgM = document.getElementById('bgModal');
 
 	btnClose.src = 'img/close.svg';
@@ -34,8 +35,11 @@ function createModalWindowTemplate() {
 	
 	function funRMV(event) {
 		event.preventDefault();
-		// console.log(event.target);
-		if (event.target === this) removeModalVisible(winTemplate, bgM);
+		if (event.target === this) {
+			let temp = document.querySelector('.marked_for_delete');
+			if (temp) temp.classList.remove('marked_for_delete');
+			removeModalVisible(winTemplate, bgM);
+		}
 	}
 	
 	btnCancel.addEventListener('click', funRMV);
@@ -77,7 +81,6 @@ function createTelephoneMask(event) {
 	const inputElement = event.target;
 	const value = inputElement.value.replace(/\D/g, '');
 	if (value.length === 0) {
-		// console.log('length=', value.length, '(value.length <= 1):', value);
 		inputElement.value = '';
 	} else if (value.length <= 2) {
 		inputElement.value = `+7 (${value}`;
@@ -92,54 +95,82 @@ function createTelephoneMask(event) {
 	}
 }
 
+// Функция маски вконтакте
+function createVkMask(event) {
+	const inputElement = event.target;
+	const value = inputElement.value.replace(/^.+\/|[.,*+?^${}()]/g, '');
+	if (value.length === 0) {
+		inputElement.value = '';
+	} else	inputElement.value = `vk.com/${value}`;
+}
+
+// Функция маски телеграм
+function createTgMask(event) {
+	const inputElement = event.target;
+	const value = inputElement.value.replace(/^.+\/|[.,*+?^${}()]/g, '');
+	if (value.length === 0) {
+		inputElement.value = '';
+	} else	inputElement.value = `t.me/${value}`;
+}
+
 // Функция связи элемента выбора и поля ввода. Добавление базовой валидации поля ввода
 function addMaskPairInput(groupElem) {
 	const selectElem = groupElem.querySelector('select');
 	const inputElem = groupElem.querySelector('input');
-	
-	inputElem.disabled = true;
-	
+
 	selectElem.addEventListener('change', () => {
 		const selectedOption = selectElem.value;
+		inputElem.disabled = false;
 		if (['phone', 'mobile'].includes(selectedOption)) {
 			inputElem.type = 'tel';
-			inputElem.disabled = false;
-			inputElem.title = 'Телефон должен быть в 10-ти значном формате';
-			inputElem.removeAttribute('pattern');
 			inputElem.addEventListener('input', createTelephoneMask);
+			inputElem.removeEventListener('input', createVkMask);
+			inputElem.removeEventListener('input', createTgMask);
 		} else if (selectedOption === 'email') {
 			inputElem.removeEventListener('input', createTelephoneMask);
-			inputElem.disabled = false;
 			inputElem.type = 'email';
-			inputElem.removeAttribute('title');
-			inputElem.removeAttribute('pattern');
+			inputElem.removeEventListener('input', createVkMask);
+			inputElem.removeEventListener('input', createTgMask);
 		} else if (selectedOption === 'vk') {
 			inputElem.removeEventListener('input', createTelephoneMask);
-			inputElem.disabled = false;
-			inputElem.pattern = '^(vk\.com)\/[a-z0-9]+';
-			inputElem.title = 'Должно быть в формате vk.com/XXXXXX'
+			inputElem.removeEventListener('input', createTgMask);
+			inputElem.addEventListener('input', createVkMask);
+			inputElem.removeAttribute('type');
 		} else if (selectedOption === 'tg') {
 			inputElem.removeEventListener('input', createTelephoneMask);
-			inputElem.disabled = false;
-			inputElem.pattern = '^(t\.me)\/[a-z0-9]+';
-			inputElem.title = 'Должно быть в формате t.me/XXXXXX'
+			inputElem.removeEventListener('input', createVkMask);
+			inputElem.addEventListener('input', createTgMask);
+			inputElem.removeAttribute('type');
 		}
 	});
 }
 
 // Функция закрытия ненужного типа контакта
-function addEventCloseContact(groupElement) {
+function addEventCloseContact(groupElement, btnAddGE) {
 	const button = groupElement.querySelector('button');
+
 	button.addEventListener('click', () => {
-		groupElement.remove();
+		const wrapper = groupElement.parentNode;
+		let count = wrapper.getElementsByClassName('group-input').length;
+		// console.log('wrapper=', wrapper);
+		// console.log('count=', count);
+		groupElement.classList.remove('margin-0');
+		if (count > 9) {
+			wrapper.children[9].classList.remove('margin-0');
+			wrapper.append(btnAddGE);
+		}
+		if (count === 1) {
+			groupElement.replaceWith(btnAddGE);
+			wrapper.classList.remove('padding-divWrapper');
+		} else groupElement.remove();
+
 	})
 }
 
 // Создание секции добавления контактов
-function createContactData() {
+function createContactData(client) {
 	const divWrapper = document.createElement('div');
 	const addButtonContact = document.createElement('button');
-	const plusImg = document.createElement('img');
 	const inputGroupWrapper = document.createElement('div');
 	const choices = document.createElement('select');
 	const inputContact = document.createElement('input');
@@ -151,31 +182,46 @@ function createContactData() {
 	for (let val of listContact) {
 		let option = document.createElement('option');
 		option.value = val[1];
-		// if (val === 'Email') option.setAttribute('selected', 'true');
 		option.textContent = val[0];
 		choices.append(option);
 	}
-	// btnCloseContact.innerHTML = '<img src="../img/cancel.svg"/>';
-	btnCloseContact.innerHTML = '<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">\n' +
-		'<path d="M6 0C2.682 0 0 2.682 0 6C0 9.318 2.682 12 6 12C9.318 12 12 9.318 12 6C12 2.682 9.318 0 6 0ZM6 10.8C3.354 10.8 1.2 8.646 1.2 6C1.2 3.354 3.354 1.2 6 1.2C8.646 1.2 10.8 3.354 10.8 6C10.8 8.646 8.646 10.8 6 10.8ZM8.154 3L6 5.154L3.846 3L3 3.846L5.154 6L3 8.154L3.846 9L6 6.846L8.154 9L9 8.154L6.846 6L9 3.846L8.154 3Z" fill="currentColor"/>\n' +
-		'</svg>';
+	btnCloseContact.innerHTML = icons.close;
 	choices.name = 'type';
 	inputContact.name = 'value'
-	plusImg.src = 'img/add_circle_outline.svg';
-	addButtonContact.textContent = 'Добавить контакт';
+	addButtonContact.innerHTML = icons.addContact;
+	addButtonContact.append('Добавить контакт');
 	inputContact.placeholder = 'Введите данные контакта';
-	// inputContact.required = true;
-	
-	addButtonContact.prepend(plusImg);
+	inputContact.disabled = true;
+
 	inputGroupWrapper.append(choices, inputContact, btnCloseContact);
-	divWrapper.append(addButtonContact);
+	if (!client || client.contacts.length < 10) divWrapper.append(addButtonContact);
 	
 	choices.className = 'choice-input-contact'
 	inputContact.classList.add('input-contact');
-	divWrapper.className = 'section_add_contact';
+	divWrapper.classList.add('section_add_contact');
 	addButtonContact.className = 'btn_add_contact';
+	addButtonContact.type = 'button';
 	inputGroupWrapper.className = 'group-input';
 	btnCloseContact.className = 'btn_close_contact';
+	btnCloseContact.type = 'button';
+
+	if (client) {
+		let fragment = new DocumentFragment();
+		if (client.contacts.length) divWrapper.classList.add('padding-divWrapper');
+		for (let contact of client.contacts) {
+			let copyIGW = inputGroupWrapper.cloneNode(true);
+			let option = Array.from(copyIGW.children[0].children).find((el) => el.value ? el.value === contact.type : false);
+			option.setAttribute('selected', 'true');
+			copyIGW.children[1].value = contact.value;
+			copyIGW.children[1].classList.add('black');
+			copyIGW.children[1].disabled = false;
+			addMaskPairInput(copyIGW);
+			addEventCloseContact(copyIGW, addButtonContact);
+			fragment.append(copyIGW);
+		}
+		divWrapper.prepend(fragment);
+		if (client.contacts.length === 10) divWrapper.children[9].classList.add('margin-0');
+	}
 	
 	addButtonContact.addEventListener('click', (event) => {
 		event.preventDefault();
@@ -185,13 +231,14 @@ function createContactData() {
 			let copyIGW = inputGroupWrapper.cloneNode(true);
 			makeTextBlack(copyIGW.children[1]);
 			addMaskPairInput(copyIGW);
-			addEventCloseContact(copyIGW);
+			addEventCloseContact(copyIGW, addButtonContact);
 			addButtonContact.before(copyIGW);
 		} else {
 			makeTextBlack(inputGroupWrapper.children[1]);
 			addButtonContact.before(inputGroupWrapper);
+			inputGroupWrapper.classList.add('margin-0');
 			addMaskPairInput(inputGroupWrapper);
-			addEventCloseContact(inputGroupWrapper);
+			addEventCloseContact(inputGroupWrapper, addButtonContact);
 			addButtonContact.remove();
 		}
 	});
@@ -215,11 +262,12 @@ function displayListErrors(response, mainBtn) {
 }
 
 // Создание модального окна нового клиента
-function createModalNewClient() {
+function createModalClient(dataClient) {
 	const modal = createModalWindowTemplate();
-	const sectionContact = createContactData();
+	const sectionContact = createContactData(dataClient);
 	const form = document.createElement('form');
 	const btnWaiting = document.createElement('img');
+	const clientID = document.createElement('span');
 	const username = [
 		{type: 'surname', val: 'Фамилия*'},
 		{type: 'name', val: 'Имя*'},
@@ -229,31 +277,41 @@ function createModalNewClient() {
 		let label = document.createElement('label');
 		let input = document.createElement('input');
 		input.placeholder = obj.val;
-		// input.required = obj.type !== 'lastName';
 		input.id = obj.type;
 		input.name = obj.type;
+		if (dataClient) {
+			input.value = dataClient[obj.type] ? dataClient[obj.type] : '';
+			label.textContent = obj.val;
+			input.classList.add('black');
+		}
 		label.htmlFor = obj.type;
-		input.className = 'input-form';
-		label.className = 'label-input';
+		input.classList.add('input-form');
+		if (dataClient) label.className = 'label-input';
+		clientID.className = 'client_id';
 		form.className = 'form';
 		form.append(label, input);
 		makeTextBlack(input);
 	}
+	if (dataClient) clientID.textContent = 'ID:' + dataClient.id;
 	btnWaiting.src = 'img/waiting_sm.svg';
 	btnWaiting.className = 'await-animation';
-	
+
 	modal.winTemplate.classList.add('modal-client');
 	modal.title.classList.add('title-client');
+	if (dataClient) modal.title.classList.add('flex-start');
 	modal.btnMain.textContent = 'Сохранить';
-	modal.title.textContent = 'Новый клиент';
+	modal.title.textContent = dataClient ? 'Изменить данные ' : 'Новый клиент';
 	form.append(sectionContact.divWrapper, modal.btnMain);
+	modal.title.append(clientID);
 	modal.title.after(form);
-	
+
 	modal.btnMain.addEventListener('click', async (event) => {
 		event.preventDefault();
 		modal.btnMain.prepend(btnWaiting);
 		const {parseFormData} = await import('./core.js');
-		let result = await parseFormData(form);
+		let id = dataClient ? dataClient.id : null;
+		// console.log('form=', form)
+		let result = await parseFormData(form, id);
 		if (result.ok) {
 			btnWaiting.remove();
 			removeModalVisible(modal.winTemplate, modal.bgM);
