@@ -16,9 +16,9 @@
 			const route = document.createElement('span');
 			route.style.cssText = 'color: #9873FF; font-size: 10px; font-weight: 600';
 			route.style.color = '#9873FF';
-			
+			console.log(colum);
 			colum.append(arrow);
-			if (colum.classList.contains('table_username')) colum.append(route);
+			if (colum.id === 'username') colum.append(route);
 			let timer;
 			colum.addEventListener('click', async () => {
 				clearTimeout(timer);

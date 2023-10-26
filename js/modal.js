@@ -41,7 +41,8 @@ function createModalWindowTemplate() {
 	}
 
 	function handlerTarget(event) {
-		event.preventDefault();
+		// event.preventDefault();
+		// console.log(event);
 		if (event.target === this) closeModalWindow();
 	}
 
