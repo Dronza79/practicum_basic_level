@@ -32,19 +32,30 @@ function createModalWindowTemplate() {
 	bgM.append(winTemplate);
 	
 	document.body.style.overflow = 'hidden';
-	
-	function funRMV(event) {
+
+	function closeModalWindow() {
+		let temp = document.querySelector('.marked_for_delete');
+		if (temp) temp.classList.remove('marked_for_delete');
+		removeModalVisible(winTemplate, bgM);
+		document.removeEventListener('keydown', handlerEscape);
+	}
+
+	function handlerTarget(event) {
 		event.preventDefault();
-		if (event.target === this) {
-			let temp = document.querySelector('.marked_for_delete');
-			if (temp) temp.classList.remove('marked_for_delete');
-			removeModalVisible(winTemplate, bgM);
-		}
+		if (event.target === this) closeModalWindow();
+	}
+
+	function handlerEscape(event) {
+		event.preventDefault();
+		// console.log(event);
+		if (event.key === 'Escape') closeModalWindow();
 	}
 	
-	btnCancel.addEventListener('click', funRMV);
-	btnClose.addEventListener('click', funRMV);
-	bgM.addEventListener('click', funRMV);
+	btnCancel.addEventListener('mousedown', handlerTarget);
+	btnClose.addEventListener('mousedown', handlerTarget);
+	bgM.addEventListener('mousedown', handlerTarget);
+	document.addEventListener('keydown', handlerEscape);
+
 	return {winTemplate, title, btnMain, btnCancel, bgM};
 }
 
