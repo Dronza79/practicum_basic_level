@@ -36,6 +36,14 @@ button {
   cursor: pointer;
 }
 
+button {
+  opacity: .7;
+}
+
+button:focus {
+  opacity: 1;
+}
+
 body {
   font-family: 'Open Sans', sans-serif;
   font-style: normal;
@@ -93,45 +101,12 @@ body {
 
 .head_table_btn {
   color: #B0B0B0;
-  /*padding-right: 20px;*/
-  /*display: flex;*/
-  /*align-items: flex-end;*/
-  /*text-align: center;*/
-  vertical-align: center;
+  outline: none;
 }
 
 .filter {
   color: #9873FF;
 }
-
-/*.arr_up {*/
-/*  background-image: url("../img/arrow_up.svg");*/
-/*  background-position: right center;*/
-/*  background-repeat: no-repeat;*/
-/*}*/
-/*.table_id {*/
-/*  width: 7%;*/
-/*  text-align: center;*/
-/*}*/
-
-/*.table_username {*/
-/*  width: 25%;*/
-/*}*/
-
-/*.table_create,*/
-/*.table_update {*/
-/*  width: 15%;*/
-/*  min-width: 120px;*/
-/*}*/
-
-/*.table_actions {*/
-/*  width: 25%;*/
-/*}*/
-
-/*.table_contact {*/
-/*  width: 13%;*/
-/*  min-width: 120px;*/
-/*}*/
 
 .table_head {
   color: #B0B0B0;
@@ -142,7 +117,6 @@ body {
   width: 100%;
   margin-bottom: 8px;
 }
-
 
 .tbody {
   background-color: #FFFFFF;
@@ -184,6 +158,7 @@ body {
   line-height: normal;
   color: #9873FF;
   cursor: pointer;
+  outline: none;
 }
 
 .btn_add svg {
@@ -254,6 +229,7 @@ body {
   display: block;
   right: 15px;
   top: 15px;
+  outline: none;
   cursor: pointer;
 }
 
@@ -269,6 +245,7 @@ body {
   min-width: 147px;
   height: 44px;
   border: 1px #9873FF solid;
+  outline: none;
   background-color: #9873FF;
   color: #FFFFFF;
   font-size: 14px;
@@ -287,6 +264,7 @@ body {
   font-size: 12px;
   line-height: 1.4;
   padding-top: 5px;
+  outline: none;
   cursor: pointer;
 }
 
@@ -332,6 +310,7 @@ body {
 .btn_add_contact{
   display: flex;
   gap: 4px;
+  outline: none;
   color: #333;
   font-style: normal;
   font-weight: 600;
@@ -388,6 +367,7 @@ body {
   width: 27px;
   border: none;
   border-left: 1px solid #C8C5D1;
+  outline: none;
   background-color: #E7E5EB;
   color: #B0B0B0;
   display: flex;
@@ -433,6 +413,13 @@ body {
 
 .cell_25 {
   width: 25%;
+  min-width: 175px;
+  word-break: break-word;
+  padding: 1px 5px;
+}
+
+.cell_actions {
+  width: 25%;
   min-width: 120px;
   word-break: break-word;
   padding: 1px 5px;
@@ -449,6 +436,7 @@ body {
 }
 
 .table_btn {
+  outline: none;
   display: inline-flex;
   align-items: center;
   gap: 5px;
@@ -456,7 +444,8 @@ body {
   opacity: .7;
 }
 
-.table_btn:hover {
+.table_btn:hover,
+.table_btn:focus {
   opacity: 1;
 }
 
@@ -477,12 +466,18 @@ body {
 }
 
 .contact_data {
+  outline: none;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 20px;
   width: 20px;
   margin-right: 3px;
+  opacity: .7;
+}
+
+.contact_data:focus {
+  opacity: 1;
 }
 
 .ref_contact_data {
@@ -500,7 +495,7 @@ body {
   white-space: nowrap;
   opacity: 1;
   visibility: visible;
-  transition: opacity .2s, visibility .2s .5s;
+  transition: opacity .3s, visibility .3s;
 }
 
 .ref_contact_data:before {
