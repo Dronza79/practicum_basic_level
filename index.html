@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>CRM Skillbus</title>
   <link href="css/main.css" rel="stylesheet">
-  <script defer src="js/main.js"></script>
+  <script type="module" defer src="js/main.js"></script>
 </head>
 <body>
 <header class="header">
@@ -24,12 +24,12 @@
     <h1 class="title">Клиенты</h1>
     <table class="table_head">
       <tr>
-        <td class="cell_5"><button class="head_table_btn arr_up filter">ID</button></td>
-        <td class="cell_25"><button class="head_table_btn arr_up filter">Фамилия Имя Отчество</button></td>
-        <td class="cell_15"><button class="head_table_btn arr_up filter">Дата и время<br>создания</button></td>
-        <td class="cell_15"><button class="head_table_btn arr_up filter">Последние<br>изменения</button></td>
+        <td class="cell_5"><button id="id" class="head_table_btn">ID</button></td>
+        <td class="cell_25"><button id="username" class="head_table_btn">Фамилия Имя Отчество</button></td>
+        <td class="cell_15"><button id="createdAt" class="head_table_btn">Дата и время<br>создания</button></td>
+        <td class="cell_15"><button id="updatedAt" class="head_table_btn">Последние<br>изменения</button></td>
         <td class="cell_13">Контакты</td>
-        <td class="cell_25">Действия</td>
+        <td class="cell_actions">Действия</td>
       </tr>
     </table>
     <div class="tbody" id="t-body">
