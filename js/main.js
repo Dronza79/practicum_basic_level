@@ -1,8 +1,11 @@
+import {icons} from "./icons.js";
+import {createBodyTable, searchDataClientsFromServer} from "./core.js";
+import {createModalClient, makeTextBlack} from "./modal.js";
+
 (() => {
-	
 	// Получение всех готовых элементов со страницы
 	function getHTMLElement() {
-		const tHead = Array.from(document.querySelectorAll('.filter'));
+		const tHead = Array.from(document.querySelectorAll('.head_table_btn'));
 		const sch = document.querySelector('.search_form');
 		const addBtn = document.getElementById('add-btn');
 		const searchInput = document.getElementById('search');
@@ -12,70 +15,54 @@
 	// Функция обработки сортировки данных
 	function addEventSortTableHead(listTableHead) {
 		for (let colum of listTableHead) {
-			const arrow = document.createElement('img');
+			const arrow = document.createElement('span');
 			const route = document.createElement('span');
-			route.style.cssText = 'color: #9873FF; font-size: 10px; font-weight: 600';
-			route.style.color = '#9873FF';
-			console.log(colum);
+			colum.dataset.sorted = '';
+			route.style.cssText = 'font-size: 10px; font-weight: 600';
+			route.textContent = 'А-Я';
+			arrow.innerHTML = icons.arrow_dwn;
 			colum.append(arrow);
 			if (colum.id === 'username') colum.append(route);
-			let timer;
+			if (colum.id === 'id') {
+				colum.classList.add('filter');
+				colum.dataset.sorted = 'dwn';
+			}
+
 			colum.addEventListener('click', async () => {
-				clearTimeout(timer);
-				timer = setTimeout(() => {
-					colum.dataset.sorted = '';
-					colum.querySelector('img').src = '';
-					if (colum.querySelector('span')) colum.querySelector('span').textContent = '';
-				}, 5000);
-				if (!colum.dataset.sorted) {
-					clearTimeout(timer);
-					listTableHead.map((el) => {
-						if (el.dataset.sorted) {
-							el.dataset.sorted = '';
-							el.querySelector('img').src = '';
-							if (el.querySelector('span')) el.querySelector('span').textContent = '';
-						}
-					});
-					colum.querySelector('img').src = 'img/arrow_dwn.svg';
-					if (colum.querySelector('span')) colum.querySelector('span').textContent = 'А-Я';
+				listTableHead.map(el => {
+					el.classList.remove('filter');
+					if (el !== colum) el.dataset.sorted = '';
+				});
+				colum.classList.add('filter');
+				if (colum.dataset.sorted !== 'dwn') {
 					colum.dataset.sorted = 'dwn';
-				} else if (colum.dataset.sorted === 'dwn') {
-					
-					colum.querySelector('img').src = 'img/arrow_up.svg';
-					if (colum.querySelector('span')) colum.querySelector('span').textContent = 'Я-А';
-					colum.dataset.sorted = 'up';
+					arrow.innerHTML = icons.arrow_dwn;
+					if (route) route.textContent = 'А-Я';
 				} else {
-					colum.querySelector('img').src = 'img/arrow_dwn.svg';
-					if (colum.querySelector('span')) colum.querySelector('span').textContent = 'А-Я';
-					colum.dataset.sorted = 'dwn';
+					colum.dataset.sorted = 'up';
+					arrow.innerHTML = icons.arrow_up;
+					if (route) route.textContent = 'Я-А';
 				}
-				const {createBodyTable} = await import('./core.js');
 				await createBodyTable(`${colum.id}_${colum.dataset.sorted}`); // Формирование тела таблицы клиентов на основании списка
-				
 			});
 		}
 	}
 	
 	document.addEventListener("DOMContentLoaded", async () => {
 		const html = getHTMLElement();
-		const {createBodyTable} = await import('./core.js');
 		await createBodyTable(); // Формирование тела таблицы клиентов на основании списка
-		const {makeTextBlack} = await import('./modal.js');
 		makeTextBlack(html.searchInput);
 
 		addEventSortTableHead(html.tHead); // Добавление обработки сортировки списка клиентов
 
 		html.sch.addEventListener('submit', async (event) => {
 			event.preventDefault();
-			console.log(html.searchInput.value);
-			const {searchDataClientsFromServer} = await import('./core.js');
-			searchDataClientsFromServer(html.searchInput.value);
+			await searchDataClientsFromServer(html.searchInput.value);
 		});
 		
 		// Обработка нажатия кнопки "Добавить клиента"
 		html.addBtn.addEventListener('click', async (event) => {
 			event.preventDefault();
-			const {createModalClient} = await import('./modal.js');
 			createModalClient(); // Создание нового клиента в модальном окне
 		});
 	});
