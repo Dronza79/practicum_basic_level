@@ -47,7 +47,7 @@ function createModalWindowTemplate() {
 	}
 
 	function handlerEscape(event) {
-		event.preventDefault();
+		// event.preventDefault();
 		// console.log(event);
 		if (event.key === 'Escape') closeModalWindow();
 	}
