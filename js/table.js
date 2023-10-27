@@ -43,7 +43,7 @@ function getReplacedValue(stringContact) {
 function createCellTableContacts(contacts) {
   const cell = document.createElement('td');
   const wrapperContact = document.createElement('div');
-  const count = document.createElement('div');
+  const count = document.createElement('button');
   const tooltip = document.querySelector('.ref_contact_data');
   const tooltipType = document.createElement('span');
   const tooltipValue = document.createElement('span');
@@ -61,12 +61,11 @@ function createCellTableContacts(contacts) {
 
   if (!contacts) return cell;
   for (let dataCont of contacts) {
-    const newContact = document.createElement("div");
+    const newContact = document.createElement("button");
     newContact.className = 'contact_data';
     newContact.innerHTML = icons[dataCont.type];
-    newContact.style.opacity = '0.7';
 
-    newContact.addEventListener('mouseenter', () => {
+    newContact.addEventListener('focus', (event) => {
       tooltip.children[0].textContent = getReplacedValue(dataCont.type);
       tooltip.children[1].textContent = dataCont.value;
       let loc = newContact.getBoundingClientRect();
@@ -74,11 +73,12 @@ function createCellTableContacts(contacts) {
       tooltip.style.left = `${window.scrollX + loc.left - tooltipDim.width / 2 + loc.width / 2}px`;
       tooltip.style.top = `${window.scrollY + loc.top - tooltipDim.height - 9}px`;
       tooltip.classList.remove('hidden');
-      newContact.style.opacity = '1';
     });
-    newContact.addEventListener('mouseleave', () => {
-      tooltip.classList.add('hidden');
-      newContact.style.opacity = '0.7';
+    newContact.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        tooltip.classList.add('hidden');
+        event.target.blur();
+      }
     });
     wrapperContact.append(newContact);
   }
@@ -124,7 +124,7 @@ function generateStringClientData(clientData) {
   createAt.className = 'cell_15';
   updateAt.className = 'cell_15';
   contacts.className = 'cell_13';
-  actions.className = 'cell_25';
+  actions.className = 'cell_actions';
   btnWrapper.className = 'tb_btn_wrapper';
   btnEdit.className = 'table_btn';
   btnDelete.className = 'table_btn';
