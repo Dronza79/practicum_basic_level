@@ -140,10 +140,10 @@ function addEventScrollTableData() {
 	const tHeader = document.querySelector('.table_head').getBoundingClientRect();
 	table.addEventListener('scroll', () => {
 		const toolTip = document.querySelector('.tooltip_focus');
-		console.log('toolTip=', toolTip);
-		console.log('tSize=', tHeader.top);
-		if (toolTip && toolTip.getBoundingClientRect().top + 3 < tHeader.top) {
-			toolTip.style.zIndex = '5';
-		} else toolTip.style.zIndex = '';
+		if (toolTip) {
+			if (toolTip.getBoundingClientRect().top + 3 < tHeader.top) {
+				toolTip.style.zIndex = '5';
+			} else toolTip.style.zIndex = '';
+		}
 	})
 }
