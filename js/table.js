@@ -44,19 +44,10 @@ function createCellTableContacts(contacts) {
   const cell = document.createElement('td');
   const wrapperContact = document.createElement('div');
   const count = document.createElement('button');
-  const tooltip = document.querySelector('.ref_contact_data');
-  const tooltipType = document.createElement('span');
-  const tooltipValue = document.createElement('span');
 
   wrapperContact.className = 'wrapper-contacts';
-  tooltip.classList.add('ref_contact_data', 'hidden');
   count.classList.add('contact_data', 'count_contact', 'sm-display');
   count.style.cursor = 'pointer';
-  tooltip.innerHTML = ':&nbsp;';
-  tooltipType.style.color = '#FFFFFF';
-  tooltipValue.style.color = '#B89EFF';
-  tooltip.prepend(tooltipType);
-  tooltip.append(tooltipValue);
   cell.append(wrapperContact);
 
   if (!contacts) return cell;
@@ -64,19 +55,25 @@ function createCellTableContacts(contacts) {
     const newContact = document.createElement("button");
     newContact.className = 'contact_data';
     newContact.innerHTML = icons[dataCont.type];
+    const tooltip = document.createElement('span');
+    const tooltipType = document.createElement('span');
+    const tooltipValue = document.createElement('span');
+    tooltip.classList.add('ref_contact_data');
+    tooltip.innerHTML = ':&nbsp;';
+    tooltipType.style.color = '#FFFFFF';
+    tooltipValue.style.color = '#B89EFF';
+    tooltip.prepend(tooltipType);
+    tooltip.append(tooltipValue);
+    newContact.append(tooltip);
 
     newContact.addEventListener('focus', (event) => {
       tooltip.children[0].textContent = getReplacedValue(dataCont.type);
       tooltip.children[1].textContent = dataCont.value;
-      let loc = newContact.getBoundingClientRect();
-      let tooltipDim = tooltip.getBoundingClientRect();
-      tooltip.style.left = `${window.scrollX + loc.left - tooltipDim.width / 2 + loc.width / 2}px`;
-      tooltip.style.top = `${window.scrollY + loc.top - tooltipDim.height - 9}px`;
-      tooltip.classList.remove('hidden');
+      tooltip.classList.add('tooltip_focus');
     });
+    newContact.addEventListener('blur', () => tooltip.classList.remove('tooltip_focus'));
     newContact.addEventListener('keydown', (event) => {
       if (event.key === 'Escape') {
-        tooltip.classList.add('hidden');
         event.target.blur();
       }
     });
