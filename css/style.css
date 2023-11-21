@@ -432,6 +432,7 @@ body {
 
 .cell_5 {
   width: 7%;
+  min-width: 55px;
   font-size: 12px;
   padding-left: 10px;
 }
@@ -445,7 +446,7 @@ body {
 
 .cell_actions {
   width: 25%;
-  min-width: 120px;
+  min-width: 130px;
   word-break: break-word;
   padding: 1px 5px;
 }
