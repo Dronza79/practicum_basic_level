@@ -113,19 +113,34 @@ body {
   color: #9873FF;
 }
 
+.table-wrapper {
+  background-color: white;
+  height: 580px;
+  overflow: auto;
+}
+
+.table {
+  width: 100%;
+  border: none;
+  border-collapse: collapse;
+}
+
 .table_head {
   color: #B0B0B0;
+  background-color: #F5F5F5;
+  height: 40px;
   font-size: 12px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
   width: 100%;
-  margin-bottom: 8px;
+  position: sticky;
+  top: -1px;
+  z-index: 9;
 }
 
 .tbody {
   background-color: #FFFFFF;
-  height: 540px;
   width: 100%;
   min-width: 728px;
   position: relative;
@@ -139,7 +154,7 @@ body {
 .table-await {
   position: absolute;
   left: calc(50% - 20px);
-  top: calc(50% - 20px);
+  top: calc(50% - 20px + 40px);
 }
 
 .await-animation {
@@ -193,6 +208,7 @@ body {
   opacity: 0;
   overflow: auto;
   transition: opacity .6s, visibility 1s;
+  z-index: 10;
 }
 
 .modal-window {
@@ -208,7 +224,7 @@ body {
   transition: transform 0.3s, opacity 0.3s;
   transform: scale(0.9);
   opacity: 0;
-  z-index: 1;
+  /*z-index: 1;*/
 }
 
 .win-confirm {
@@ -417,7 +433,7 @@ body {
 .cell_5 {
   width: 7%;
   font-size: 12px;
-  color: #B0B0B0;
+  padding-left: 10px;
 }
 
 .cell_25 {
@@ -477,6 +493,7 @@ body {
 .contact_data {
   outline: none;
   display: flex;
+  position: relative;
   justify-content: center;
   align-items: center;
   height: 20px;
@@ -491,6 +508,7 @@ body {
 
 .ref_contact_data {
   position: absolute;
+  top: -46px;
   min-width: 134px;
   height: 37px;
   color: #FFFFFF;
@@ -502,8 +520,8 @@ body {
   justify-content: center;
   flex-wrap: nowrap;
   white-space: nowrap;
-  opacity: 1;
-  visibility: visible;
+  opacity: 0;
+  visibility: hidden;
   transition: opacity .3s, visibility .3s;
 }
 
@@ -517,10 +535,16 @@ body {
   margin-left: -9px;
 }
 
-.hidden {
-  opacity: 0;
-  visibility: hidden;
+.contact_data:focus .ref_contact_data {
+  opacity: 1;
+  visibility: visible;
+  z-index: 15;
 }
+
+/*.hidden {*/
+/*  opacity: 0;*/
+/*  visibility: hidden;*/
+/*}*/
 
 .string_data:hover {
   background-color: rgba(207, 207, 211, 0.57);
