@@ -95,15 +95,15 @@ function createTelephoneMask(event) {
 	if (value.length === 0) {
 		inputElement.value = '';
 	} else if (value.length <= 2) {
-		inputElement.value = `+7 (${value}`;
+		inputElement.value = `+7(${value}`;
 	} else if (2 < value.length && value.length <= 4) {
-		inputElement.value = `+${value.slice(0, 1)} (${value.slice(1)}`;
+		inputElement.value = `+${value.slice(0, 1)}(${value.slice(1)}`;
 	} else if (4 < value.length && value.length <= 7) {
-		inputElement.value = `+${value.slice(0, 1)} (${value.slice(1, 4)}) ${value.slice(4)}`;
+		inputElement.value = `+${value.slice(0, 1)}(${value.slice(1, 4)})${value.slice(4)}`;
 	} else if (7 < value.length && value.length <= 9) {
-		inputElement.value = `+${value.slice(0, 1)} (${value.slice(1, 4)}) ${value.slice(4, 7)}-${value.slice(7)}`;
+		inputElement.value = `+${value.slice(0, 1)}(${value.slice(1, 4)})${value.slice(4, 7)}-${value.slice(7)}`;
 	} else {
-		inputElement.value = `+${value.slice(0, 1)} (${value.slice(1, 4)}) ${value.slice(4, 7)}-${value.slice(7, 9)}-${value.slice(9, 11)}`;
+		inputElement.value = `+${value.slice(0, 1)}(${value.slice(1, 4)})${value.slice(4, 7)}-${value.slice(7, 9)}-${value.slice(9, 11)}`;
 	}
 }
 
