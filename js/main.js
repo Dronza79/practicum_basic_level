@@ -49,7 +49,7 @@ import {createModalClient, makeTextBlack} from "./modal.js";
 	}
 
 	async function getClientDataIfThereHash() {
-		if (location.hash) await getClientData(location.hash.replace(/\D/g, ''))
+		if (location.hash) await getClientData(location.hash.replace(/\D/g, ''));
 	}
 
 	document.addEventListener("DOMContentLoaded", async () => {
@@ -74,7 +74,7 @@ import {createModalClient, makeTextBlack} from "./modal.js";
 			createModalClient(); // Создание нового клиента в модальном окне
 		});
 		// Открытие карточки по ссылке
-		window.addEventListener('hashchange', async (event) => {
+		window.addEventListener('hashchange', async () => {
 			await getClientData(location.hash.replace(/\D/g, ''))
 			// console.log(event.target);
 			// alert(location.hash);

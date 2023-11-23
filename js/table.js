@@ -137,9 +137,11 @@ function generateStringClientData(clientData) {
   btnEdit. addEventListener('click', () => {
     getClientData(clientData.id).then(r => r);
   });
-  // stringTable.addEventListener("click", (event) => {
-  //   if (event.target !== btnEdit && event.target !== btnDelete) console.log(event.target);
-  // });
+  stringTable.addEventListener("click", (event) => {
+    if (event.target !== btnEdit && event.target !== btnDelete) {
+      window.open(location.origin + location.pathname + `#${clientData.id}`, '_blank');
+    }
+  });
   return stringTable;
   }
   

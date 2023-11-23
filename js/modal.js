@@ -309,7 +309,7 @@ function createModalClient(dataClient) {
 	}
 	if (dataClient) {
 		clientID.textContent = 'ID:' + dataClient.id;
-		clientID.href = location.href + `#${dataClient.id}`
+		clientID.href = location.origin + location.pathname + `#${dataClient.id}`
 		clientID.target = '_blank';
 	}
 	btnWaiting.src = 'img/waiting_sm.svg';
