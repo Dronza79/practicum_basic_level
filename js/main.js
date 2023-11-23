@@ -5,8 +5,8 @@ import {createModalClient, makeTextBlack} from "./modal.js";
 (() => {
 	// Получение всех готовых элементов со страницы
 	function getHTMLElement() {
-		const tHead = Array.from(document.querySelectorAll('.head_table_btn'));
-		const sch = document.querySelector('.search_form');
+		const tHead = Array.from(document.querySelectorAll('.head-table-btn'));
+		const sch = document.querySelector('.search-form');
 		const addBtn = document.getElementById('add-btn');
 		const searchInput = document.getElementById('search');
 		return {tHead, sch, addBtn, searchInput};
