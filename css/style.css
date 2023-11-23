@@ -77,6 +77,7 @@ body {
 
 .logo {
   margin-right: 53px;
+  transition: margin .3s;
 }
 
 .search-form {
@@ -420,7 +421,7 @@ body {
   font-size: 14px;
   word-break: break-all;
   border-collapse: collapse;
-  transition: all 1s;
+  transition: font-size 1s;
 }
 
 .string-data {
