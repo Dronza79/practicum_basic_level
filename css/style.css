@@ -421,7 +421,7 @@ body {
   font-size: 14px;
   word-break: break-all;
   border-collapse: collapse;
-  transition: font-size .3s;
+  /*transition: font-size .3s;*/
 }
 
 .string-data {
