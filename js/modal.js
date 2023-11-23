@@ -42,7 +42,7 @@ function createModalWindowTemplate() {
 
 	function handlerTarget(event) {
 		// event.preventDefault();
-		// console.log(event);
+		// console.log(event.target);
 		if (event.target === this) closeModalWindow();
 	}
 
@@ -53,7 +53,7 @@ function createModalWindowTemplate() {
 	}
 	
 	btnCancel.addEventListener('mousedown', handlerTarget);
-	btnClose.addEventListener('mousedown', handlerTarget);
+	btnClose.addEventListener('click', () => closeModalWindow());
 	bgM.addEventListener('mousedown', handlerTarget);
 	document.addEventListener('keydown', handlerEscape);
 
