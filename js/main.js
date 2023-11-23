@@ -1,5 +1,5 @@
 import {icons} from "./icons.js";
-import {createBodyTable, searchDataClientsFromServer} from "./core.js";
+import {createBodyTable, getClientData, searchDataClientsFromServer} from "./core.js";
 import {createModalClient, makeTextBlack} from "./modal.js";
 
 (() => {
@@ -47,10 +47,15 @@ import {createModalClient, makeTextBlack} from "./modal.js";
 			});
 		}
 	}
-	
+
+	async function getClientDataIfThereHash() {
+		if (location.hash) await getClientData(location.hash.replace(/\D/g, ''))
+	}
+
 	document.addEventListener("DOMContentLoaded", async () => {
 		const html = getHTMLElement();
 		await createBodyTable(); // Формирование тела таблицы клиентов на основании списка
+		await getClientDataIfThereHash(); // Проверка строки браузера на хеш
 		makeTextBlack(html.searchInput);
 
 		addEventSortTableHead(html.tHead); // Добавление обработки сортировки списка клиентов
@@ -67,6 +72,12 @@ import {createModalClient, makeTextBlack} from "./modal.js";
 		html.addBtn.addEventListener('click', async (event) => {
 			event.preventDefault();
 			createModalClient(); // Создание нового клиента в модальном окне
+		});
+		// Открытие карточки по ссылке
+		window.addEventListener('hashchange', async (event) => {
+			await getClientData(location.hash.replace(/\D/g, ''))
+			// console.log(event.target);
+			// alert(location.hash);
 		});
 	});
 })();
