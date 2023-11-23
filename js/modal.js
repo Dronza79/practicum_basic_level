@@ -38,11 +38,13 @@ function createModalWindowTemplate() {
 		if (temp) temp.classList.remove('marked-for-delete');
 		removeModalVisible(winTemplate, bgM);
 		document.removeEventListener('keydown', handlerEscape);
-		location.href = '';
+		if (location.hash) {
+			location.href = '';
+		}
 	}
 
 	function handlerTarget(event) {
-		// event.preventDefault();
+		event.preventDefault();
 		// console.log(event.target);
 		if (event.target === this) closeModalWindow();
 	}
@@ -308,8 +310,7 @@ function createModalClient(dataClient) {
 	if (dataClient) {
 		clientID.textContent = 'ID:' + dataClient.id;
 		clientID.href = location.href + `#${dataClient.id}`
-		// location.hash = dataClient.id;
-		// console.log(location.href);
+		clientID.target = '_blank';
 	}
 	btnWaiting.src = 'img/waiting_sm.svg';
 	btnWaiting.className = 'await-animation';
