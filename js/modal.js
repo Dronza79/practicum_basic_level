@@ -12,13 +12,13 @@ function removeModalVisible(windowModal, modalBackGround) {
 // Создание шаблона модального окна
 function createModalWindowTemplate() {
 	const winTemplate = document.createElement('div');
-	const btnClose = document.createElement('img');
+	const btnClose = document.createElement('button');
 	const btnMain = document.createElement('button');
 	const btnCancel = document.createElement('button');
 	const title = document.createElement('h3');
 	const bgM = document.getElementById('bgModal');
 
-	btnClose.src = 'img/close.svg';
+	btnClose.innerHTML = icons.close;
 	btnCancel.textContent = 'Отмена';
 	title.classList.add('modal-title');
 	btnClose.classList.add('modal-btnClose');
@@ -34,8 +34,8 @@ function createModalWindowTemplate() {
 	document.body.style.overflow = 'hidden';
 
 	function closeModalWindow() {
-		let temp = document.querySelector('.marked_for_delete');
-		if (temp) temp.classList.remove('marked_for_delete');
+		let temp = document.querySelector('.marked-for-delete');
+		if (temp) temp.classList.remove('marked-for-delete');
 		removeModalVisible(winTemplate, bgM);
 		document.removeEventListener('keydown', handlerEscape);
 	}
@@ -197,7 +197,7 @@ function createContactData(client) {
 		option.textContent = val[0];
 		choices.append(option);
 	}
-	btnCloseContact.innerHTML = icons.close;
+	btnCloseContact.innerHTML = icons.cancel;
 	choices.name = 'type';
 	inputContact.name = 'value'
 	addButtonContact.innerHTML = icons.addContact;
@@ -210,11 +210,11 @@ function createContactData(client) {
 	
 	choices.className = 'choice-input-contact'
 	inputContact.classList.add('input-contact');
-	divWrapper.classList.add('section_add_contact');
-	addButtonContact.className = 'btn_add_contact';
+	divWrapper.classList.add('section-add-contact');
+	addButtonContact.className = 'btn-add-contact';
 	addButtonContact.type = 'button';
 	inputGroupWrapper.className = 'group-input';
-	btnCloseContact.className = 'btn_close_contact';
+	btnCloseContact.className = 'btn-close-contact';
 	btnCloseContact.type = 'button';
 
 	if (client) {
@@ -223,7 +223,7 @@ function createContactData(client) {
 		for (let contact of client.contacts) {
 			let copyIGW = inputGroupWrapper.cloneNode(true);
 			let option = Array.from(copyIGW.children[0].children).find((el) => el.value ? el.value === contact.type : false);
-			option.setAttribute('selected', 'true');
+			option.setAttribute('selected', 'selected');
 			copyIGW.children[1].value = contact.value;
 			copyIGW.children[1].classList.add('black');
 			copyIGW.children[1].disabled = false;
@@ -261,8 +261,8 @@ function createContactData(client) {
 function displayListErrors(response, mainBtn) {
 	let divErrors = document.createElement('div');
 	divErrors.style.color = 'red';
-	divErrors.className = 'server_errors';
-	let oldMess = document.querySelector('.server_errors');
+	divErrors.className = 'server-errors';
+	let oldMess = document.querySelector('.server-errors');
 	if (oldMess) oldMess.remove();
 	let data = '';
 	console.log('result.errors', response.errors.errors);
@@ -299,7 +299,7 @@ function createModalClient(dataClient) {
 		label.htmlFor = obj.type;
 		input.classList.add('input-form');
 		if (dataClient) label.className = 'label-input';
-		clientID.className = 'client_id';
+		clientID.className = 'client-id';
 		form.className = 'form';
 		form.append(label, input);
 		makeTextBlack(input);
