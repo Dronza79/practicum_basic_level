@@ -110,8 +110,13 @@ async function deleteClientToServer(IdClient) {
 
 async function getClientData(IdClient) {
 	let response = await fetch(SERVER + `/${IdClient}`);
-	let dataClient = await response.json();
-	createModalClient(dataClient);
+	if (response.ok) {
+		let dataClient = await response.json();
+		createModalClient(dataClient);
+	} else {
+		alert('Такого клиента нет');
+		location.href = '';
+	}
 }
 
 // Функция отрисовки таблицы согласно строке поиска
