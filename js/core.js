@@ -75,7 +75,7 @@ async function createBodyTable(sorted) {
 	let awaitData = document.querySelector('.table-await');
 	const {generateStringClientData} = await import('./table.js');
 	
-	tableBody.className = 'table_clients';
+	tableBody.className = 'table-clients';
 	awaitData.style.display = 'none';
 	tableBody.innerHTML = '';
 
@@ -123,7 +123,7 @@ async function searchDataClientsFromServer(searchString){
 	let result = await response.json();
 	
 	awaitData.style.display = 'none';
-	tableBody.className = 'table_clients';
+	tableBody.className = 'table-clients';
 	tableBody.innerHTML = '';
 
 	if (result.length) {
@@ -137,9 +137,9 @@ async function searchDataClientsFromServer(searchString){
 
 function addEventScrollTableData() {
 	const table = document.querySelector('.table-wrapper');
-	const tHeader = document.querySelector('.table_head').getBoundingClientRect();
+	const tHeader = document.querySelector('.table-head').getBoundingClientRect();
 	table.addEventListener('scroll', () => {
-		const toolTip = document.querySelector('.tooltip_focus');
+		const toolTip = document.querySelector('.tooltip-focus');
 		if (toolTip) {
 			if (toolTip.getBoundingClientRect().top + 3 < tHeader.top) {
 				toolTip.style.zIndex = '5';
