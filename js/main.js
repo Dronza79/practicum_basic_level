@@ -54,8 +54,8 @@ import {createModalClient, makeTextBlack} from "./modal.js";
 
 	document.addEventListener("DOMContentLoaded", async () => {
 		const html = getHTMLElement();
-		await createBodyTable(); // Формирование тела таблицы клиентов на основании списка
 		await getClientDataIfThereHash(); // Проверка строки браузера на хеш
+		await createBodyTable(); // Формирование тела таблицы клиентов на основании списка
 		makeTextBlack(html.searchInput);
 
 		addEventSortTableHead(html.tHead); // Добавление обработки сортировки списка клиентов
