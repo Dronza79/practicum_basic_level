@@ -38,6 +38,7 @@ function createModalWindowTemplate() {
 		if (temp) temp.classList.remove('marked-for-delete');
 		removeModalVisible(winTemplate, bgM);
 		document.removeEventListener('keydown', handlerEscape);
+		location.href = '';
 	}
 
 	function handlerTarget(event) {
@@ -279,7 +280,7 @@ function createModalClient(dataClient) {
 	const sectionContact = createContactData(dataClient);
 	const form = document.createElement('form');
 	const btnWaiting = document.createElement('img');
-	const clientID = document.createElement('span');
+	const clientID = document.createElement('a');
 	const username = [
 		{type: 'surname', val: 'Фамилия*'},
 		{type: 'name', val: 'Имя*'},
@@ -304,7 +305,12 @@ function createModalClient(dataClient) {
 		form.append(label, input);
 		makeTextBlack(input);
 	}
-	if (dataClient) clientID.textContent = 'ID:' + dataClient.id;
+	if (dataClient) {
+		clientID.textContent = 'ID:' + dataClient.id;
+		clientID.href = location.href + `#${dataClient.id}`
+		// location.hash = dataClient.id;
+		// console.log(location.href);
+	}
 	btnWaiting.src = 'img/waiting_sm.svg';
 	btnWaiting.className = 'await-animation';
 
