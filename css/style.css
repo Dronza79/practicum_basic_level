@@ -585,6 +585,10 @@ body {
   display: flex;
 }
 
+.footer {
+  padding-bottom: 30px;
+}
+
 @media (max-width: 460px) {
   .logo {
     margin-right: 20px;
