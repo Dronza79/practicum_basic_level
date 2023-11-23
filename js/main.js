@@ -55,11 +55,14 @@ import {createModalClient, makeTextBlack} from "./modal.js";
 
 		addEventSortTableHead(html.tHead); // Добавление обработки сортировки списка клиентов
 
-		html.sch.addEventListener('submit', async (event) => {
-			event.preventDefault();
-			await searchDataClientsFromServer(html.searchInput.value);
+		// Отправка запроса по строке поиска с задержкой 300мс после окончания набора
+		let tempLag;
+		html.sch.addEventListener('input',  () => {
+			clearTimeout(tempLag);
+			// tempLag = setTimeout(async() => console.log('сработало'), 700);
+			tempLag = setTimeout(async() => await searchDataClientsFromServer(html.searchInput.value), 300);
 		});
-		
+
 		// Обработка нажатия кнопки "Добавить клиента"
 		html.addBtn.addEventListener('click', async (event) => {
 			event.preventDefault();
