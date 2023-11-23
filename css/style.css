@@ -80,11 +80,11 @@ body {
   margin-right: 53px;
 }
 
-.search_form {
+.search-form {
   width: 100%;
 }
 
-.search_form__input {
+.search-form-input {
   max-width: 581px;
   width: 100%;
   height: 44px;
@@ -104,7 +104,7 @@ body {
   color: #333333;
 }
 
-.head_table_btn {
+.head-table-btn {
   color: #B0B0B0;
   outline: none;
 }
@@ -125,7 +125,7 @@ body {
   border-collapse: collapse;
 }
 
-.table_head {
+.table-head {
   color: #B0B0B0;
   background-color: #F5F5F5;
   height: 40px;
@@ -173,7 +173,7 @@ body {
   }
 }
 
-.btn_add {
+.btn-add {
   padding: 13px 26px;
   border: 1px solid #9873FF;
   font-size: 14px;
@@ -185,7 +185,7 @@ body {
   outline: none;
 }
 
-.btn_add svg {
+.btn-add svg {
   margin-right: 10px;
 }
 
@@ -317,7 +317,7 @@ body {
   margin-bottom: 32px;
 }
 
-.section_add_contact {
+.section-add-contact {
   margin: 25px -30px;
   background-color: rgba(200, 197, 209, .3);
   min-height: 35px;
@@ -332,7 +332,7 @@ body {
   padding: 25px 30px;
 }
 
-.btn_add_contact {
+.btn-add-contact {
   display: flex;
   gap: 4px;
   outline: none;
@@ -387,7 +387,7 @@ body {
   padding-left: 12px;
 }
 
-.btn_close_contact {
+.btn-close-contact {
   height: 100%;
   width: 27px;
   border: none;
@@ -410,7 +410,7 @@ body {
   font-weight: 600;
 }
 
-.server_errors {
+.server-errors {
   color: red;
   font-size: 10px;
   text-align: center;
@@ -418,50 +418,50 @@ body {
   margin-bottom: 25px;
 }
 
-.table_clients {
+.table-clients {
   font-size: 14px;
   word-break: break-all;
   border-collapse: collapse;
   transition: all 1s;
 }
 
-.string_data {
+.string-data {
   border-bottom: 1px solid #B0B0B0;
   height: 60px;
 }
 
-.cell_5 {
+.cell-5 {
   width: 7%;
   min-width: 55px;
   font-size: 12px;
   padding-left: 10px;
 }
 
-.cell_25 {
+.cell-25 {
   width: 25%;
   min-width: 175px;
   word-break: break-word;
   padding: 1px 5px;
 }
 
-.cell_actions {
+.cell-actions {
   width: 25%;
   min-width: 130px;
   word-break: break-word;
   padding: 1px 5px;
 }
 
-.cell_15 {
+.cell-15 {
   width: 15%;
   min-width: 120px;
 }
 
-.cell_13 {
+.cell-13 {
   width: 13%;
   min-width: 120px;
 }
 
-.table_btn {
+.table-btn {
   outline: none;
   display: inline-flex;
   align-items: center;
@@ -470,12 +470,12 @@ body {
   opacity: .7;
 }
 
-.table_btn:hover,
-.table_btn:focus {
+.table-btn:hover,
+.table-btn:focus {
   opacity: 1;
 }
 
-.tb_btn_wrapper {
+.tb-btn-wrapper {
   display: flex;
   column-gap: 30px;
   row-gap: 5px;
@@ -491,7 +491,7 @@ body {
   flex-wrap: wrap;
 }
 
-.contact_data {
+.contact-data {
   outline: none;
   display: flex;
   position: relative;
@@ -503,11 +503,11 @@ body {
   opacity: .7;
 }
 
-.contact_data:focus {
+.contact-data:focus {
   opacity: 1;
 }
 
-.ref_contact_data {
+.ref-contact-data {
   position: absolute;
   top: -46px;
   min-width: 134px;
@@ -526,7 +526,7 @@ body {
   transition: opacity .3s, visibility .3s;
 }
 
-.ref_contact_data:before {
+.ref-contact-data:before {
   content: "";
   position: absolute;
   top: 100%;
@@ -536,7 +536,7 @@ body {
   margin-left: -9px;
 }
 
-.contact_data:focus .ref_contact_data {
+.contact-data:focus .ref-contact-data {
   opacity: 1;
   visibility: visible;
   z-index: 15;
@@ -547,11 +547,11 @@ body {
 /*  visibility: hidden;*/
 /*}*/
 
-.string_data:hover {
+.string-data:hover {
   background-color: rgba(207, 207, 211, 0.57);
 }
 
-.marked_for_delete {
+.marked-for-delete {
   outline: 3px solid rgba(188, 96, 96, 0.45);
   background: repeating-linear-gradient(135deg, rgba(188, 96, 96, 0) 0px, rgba(188, 96, 96, 0) 20px, rgba(188, 96, 96, 0.7) 20px, rgba(188, 96, 96, 0.7) 21px)
 }
@@ -563,7 +563,7 @@ body {
   font-weight: 400;
 }
 
-.client_id {
+.client-id {
   color: #B0B0B0;
   font-size: 12px;
   font-style: normal;
@@ -574,7 +574,7 @@ body {
   align-self: flex-start;
 }
 
-.count_contact {
+.count-contact {
   color: #333;
   font-size: 8px;
   font-weight: 600;
