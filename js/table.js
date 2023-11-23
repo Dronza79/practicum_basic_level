@@ -46,19 +46,19 @@ function createCellTableContacts(contacts) {
   const count = document.createElement('button');
 
   wrapperContact.className = 'wrapper-contacts';
-  count.classList.add('contact_data', 'count_contact', 'sm-display');
+  count.classList.add('contact-data', 'count-contact', 'sm-display');
   count.style.cursor = 'pointer';
   cell.append(wrapperContact);
 
   if (!contacts) return cell;
   for (let dataCont of contacts) {
     const newContact = document.createElement("button");
-    newContact.className = 'contact_data';
+    newContact.className = 'contact-data';
     newContact.innerHTML = icons[dataCont.type];
     const tooltip = document.createElement('span');
     const tooltipType = document.createElement('span');
     const tooltipValue = document.createElement('span');
-    tooltip.classList.add('ref_contact_data');
+    tooltip.classList.add('ref-contact-data');
     tooltip.innerHTML = ':&nbsp;';
     tooltipType.style.color = '#FFFFFF';
     tooltipValue.style.color = '#B89EFF';
@@ -66,12 +66,12 @@ function createCellTableContacts(contacts) {
     tooltip.append(tooltipValue);
     newContact.append(tooltip);
 
-    newContact.addEventListener('focus', (event) => {
+    newContact.addEventListener('focus', () => {
       tooltip.children[0].textContent = getReplacedValue(dataCont.type);
       tooltip.children[1].textContent = dataCont.value;
-      tooltip.classList.add('tooltip_focus');
+      tooltip.classList.add('tooltip-focus');
     });
-    newContact.addEventListener('blur', () => tooltip.classList.remove('tooltip_focus'));
+    newContact.addEventListener('blur', () => tooltip.classList.remove('tooltip-focus'));
     newContact.addEventListener('keydown', (event) => {
       if (event.key === 'Escape') {
         event.target.blur();
@@ -115,16 +115,16 @@ function generateStringClientData(clientData) {
   btnEdit.append('Редактировать');
   btnDelete.append('Удалить');
 
-  stringTable.className = 'string_data';
-  cellID.className = 'cell_5';
-  username.className = 'cell_25';
-  createAt.className = 'cell_15';
-  updateAt.className = 'cell_15';
-  contacts.className = 'cell_13';
-  actions.className = 'cell_actions';
-  btnWrapper.className = 'tb_btn_wrapper';
-  btnEdit.className = 'table_btn';
-  btnDelete.className = 'table_btn';
+  stringTable.className = 'string-data';
+  cellID.className = 'cell-5';
+  username.className = 'cell-25';
+  createAt.className = 'cell-15';
+  updateAt.className = 'cell-15';
+  contacts.className = 'cell-13';
+  actions.className = 'cell-actions';
+  btnWrapper.className = 'tb-btn-wrapper';
+  btnEdit.className = 'table-btn';
+  btnDelete.className = 'table-btn';
 
   btnWrapper.append(btnEdit, btnDelete);
   actions.append(btnWrapper);
@@ -132,7 +132,7 @@ function generateStringClientData(clientData) {
   
   btnDelete.addEventListener('click', () => {
     deleteClientToServer(clientData.id).then(r => r);
-    stringTable.classList.add('marked_for_delete');
+    stringTable.classList.add('marked-for-delete');
   });
   btnEdit. addEventListener('click', () => {
     getClientData(clientData.id).then(r => r);
