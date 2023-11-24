@@ -11,8 +11,6 @@ async function parseFormData(form, clientID) {
 	const contacts = [];
 	const contType = data.getAll('type');
 	const contVal = data.getAll('value');
-	// console.log('contType=', contType);
-	// console.log('contVal=', contVal);
 	person.surname = data.get('surname');
 	person.name = data.get('name');
 	person.lastName = data.get('lastName');
@@ -22,7 +20,6 @@ async function parseFormData(form, clientID) {
 	}
 	person.contacts = contacts;
 	if (clientID) person.id = clientID;
-	// console.log(person);
 	if (!clientID) {
 		let response = await fetch(SERVER, {
 			method: 'POST',
@@ -71,21 +68,22 @@ function getSortedList(listClients, typeSorted) {
 
 // Функция отрисовки таблицы с учетом выбранной сортировки
 async function createBodyTable(sorted) {
-	const htmlElement = document.getElementById('t-body');
 	let response = await fetch(SERVER);
 	let listClients = await response.json();
 	if (sorted) listClients = getSortedList(listClients, sorted);
-	let tableBody = document.createElement('table');
+	let tableBody = document.getElementById('t-body');
+	let awaitData = document.querySelector('.table-await');
 	const {generateStringClientData} = await import('./table.js');
 	
-	tableBody.className = 'table_clients';
-	htmlElement.innerHTML = '';
-	
+	tableBody.className = 'table-clients';
+	awaitData.style.display = 'none';
+	tableBody.innerHTML = '';
+
 	for (const client of listClients) {
 		let stringClient = generateStringClientData(client);
 		tableBody.append(stringClient); // Добавление строки с данными клиента
 	}
-	htmlElement.append(tableBody);
+	addEventScrollTableData();
 }
 
 // Функция удаления выбранного клиента с сервера
@@ -112,25 +110,45 @@ async function deleteClientToServer(IdClient) {
 
 async function getClientData(IdClient) {
 	let response = await fetch(SERVER + `/${IdClient}`);
-	let dataClient = await response.json();
-	createModalClient(dataClient);
+	if (response.ok) {
+		let dataClient = await response.json();
+		createModalClient(dataClient);
+	} else {
+		alert('Такого клиента нет');
+		location.href = '';
+	}
 }
 
+// Функция отрисовки таблицы согласно строке поиска
 async function searchDataClientsFromServer(searchString){
-	const htmlElement = document.getElementById('t-body');
-	let tableBody = document.createElement('table');
+	let awaitData = document.querySelector('.table-await');
+	let tableBody = document.getElementById('t-body');
 	const {generateStringClientData} = await import('./table.js');
 	let response = await fetch(SERVER + `?search=${searchString}`);
 	let result = await response.json();
 	
-	tableBody.className = 'table_clients';
-	htmlElement.innerHTML = '';
+	awaitData.style.display = 'none';
+	tableBody.className = 'table-clients';
+	tableBody.innerHTML = '';
+
 	if (result.length) {
 		for (const client of result) {
 			let stringClient = generateStringClientData(client);
 			tableBody.append(stringClient); // Добавление строки с данными клиента
 		}
-		htmlElement.append(tableBody);
 	}
+	addEventScrollTableData();
 }
 
+function addEventScrollTableData() {
+	const table = document.querySelector('.table-wrapper');
+	const tHeader = document.querySelector('.table-head').getBoundingClientRect();
+	table.addEventListener('scroll', () => {
+		const toolTip = document.querySelector('.tooltip-focus');
+		if (toolTip) {
+			if (toolTip.getBoundingClientRect().top + 3 < tHeader.top) {
+				toolTip.style.zIndex = '5';
+			} else toolTip.style.zIndex = '';
+		}
+	})
+}

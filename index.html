@@ -3,43 +3,45 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>CRM Skillbus</title>
-  <link href="css/main.css" rel="stylesheet">
-  <script defer src="js/main.js"></script>
+  <link href="css/main.css" rel="stylesheet">  
 </head>
 <body>
 <header class="header">
   <div class="container flex">
     <img alt="лого" class="logo" src="img/logo.png">
-    <form action="#" class="search_form">
+    <form class="search-form">
       <label for="search"></label>
-      <input type="text" class="search_form__input" name="searchText" id="search" placeholder="Введите запрос">
+      <input type="text" class="search-form-input" name="searchText" id="search" placeholder="Введите запрос">
     </form>
   </div>
 </header>
 <main class="main">
   <div class="container">
     <h1 class="title">Клиенты</h1>
-    <table class="table_head">
-      <tr>
-        <td id="id" class="table_id filter">ID</td>
-        <td id="username" class="table_username filter">Фамилия Имя Отчество</td>
-        <td id="createdAt" class="table_create filter">Дата и время<br>создания</td>
-        <td id="updatedAt" class="table_update filter">Последние<br>изменения</td>
-        <td class="table_contact">Контакты</td>
-        <td class="table_actions">Действия</td>
-      </tr>
-    </table>
-    <div class="tbody" id="t-body">
+    <div class="table-wrapper">
+      <table class="table">
+        <thead class="table-head">
+        <tr>
+          <td class="cell-5"><button id="id" class="head-table-btn">ID</button></td>
+          <td class="cell-25"><button id="username" class="head-table-btn">Фамилия Имя Отчество</button></td>
+          <td class="cell-15"><button id="createdAt" class="head-table-btn">Дата и время<br>создания</button></td>
+          <td class="cell-15"><button id="updatedAt" class="head-table-btn">Последние<br>изменения</button></td>
+          <td class="cell-13">Контакты</td>
+          <td class="cell-actions">Действия</td>
+        </tr>
+        </thead>
+        <tbody class="tbody" id="t-body"></tbody>
+      </table>
       <img src="img/waiting.svg" class="table-await await-animation" alt="await">
     </div>
   </div>
 </main>
 <footer class="footer">
   <div class="container flex justify-content-center">
-    <button class="btn_add flex" id="add-btn">
+    <button class="btn-add flex" id="add-btn">
       <svg width="23" height="16" viewBox="0 0 23 16" fill="none">
         <path d="M14.5 8C16.71 8 18.5 6.21 18.5 4C18.5 1.79 16.71 0 14.5 0C12.29 0 10.5 1.79 10.5 4C10.5 6.21 12.29 8 14.5 8ZM5.5 6V3H3.5V6H0.5V8H3.5V11H5.5V8H8.5V6H5.5ZM14.5 10C11.83 10 6.5 11.34 6.5 14V16H22.5V14C22.5 11.34 17.17 10 14.5 10Z" fill="#9873FF"/>
       </svg>
@@ -48,6 +50,6 @@
   </div>
 </footer>
 <div class="bgModal" id="bgModal"></div>
-<div class="ref_contact_data hidden"></div>
+<script type="module" src="js/main.js"></script>
 </body>
 </html>
