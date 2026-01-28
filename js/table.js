@@ -1,4 +1,4 @@
-const {deleteClientToServer, getClientData} = await import("./core.js");
+import {deleteClientToServer, getClientData} from "./core.js"
 import { icons } from "./icons.js"
 
 export {generateStringClientData}
@@ -134,12 +134,13 @@ function generateStringClientData(clientData) {
     deleteClientToServer(clientData.id).then(r => r);
     stringTable.classList.add('marked-for-delete');
   });
-  btnEdit. addEventListener('click', () => {
-    getClientData(clientData.id).then(r => r);
+  btnEdit. addEventListener('click', async () => {
+    await getClientData(clientData.id);
   });
   stringTable.addEventListener("click", (event) => {
     if (event.target !== btnEdit && event.target !== btnDelete) {
-      window.open(location.origin + location.pathname + `#${clientData.id}`, '_blank');
+      console.log(event.target);
+      window.open( location.href + `#${clientData.id}`, '_blank');
     }
   });
   return stringTable;
